@@ -57,29 +57,29 @@ jobs:
       #     package-id: "Linux.FrameBuffer"
       #     project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"             
        
-      - name: Build Mobile (Android)
-        uses: "./.github/workflows/steps/build_android"
+      # - name: Build Mobile (Android)
+      #   uses: "./.github/workflows/steps/build_android"
+      #   with:
+      #     package-id: "Mobile_Android"
+      #     certificate:  "$ANDROID_BASE64_JKS_CERTIFICATE"
+      #     certificate-password: "$ANDROID_BASE64_JKS_CERTIFICATE_PASSWORD"
+      #     certificate-alias: "$ANDROID_BASE64_JKS_CERTIFICATE_ALIAS"
+      #     project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+      #     project-folder: "Demo.Mobile" 
+
+      - name: Build Mobile (iOS)
+        uses: "./.github/workflows/steps/build_mobile"
         with:
-          package-id: "Mobile_Android"
-          certificate:  "$ANDROID_BASE64_JKS_CERTIFICATE"
-          certificate-password: "$ANDROID_BASE64_JKS_CERTIFICATE_PASSWORD"
-          certificate-alias: "$ANDROID_BASE64_JKS_CERTIFICATE_ALIAS"
+          package-id: "Mobile_iOS"
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-          project-folder: "Demo.Mobile" 
+          target-framework: "net6.0-ios"
 
-      # - name: Build Mobile (iOS)
-      #   uses: "./.github/workflows/steps/build_mobile"
-      #   with:
-      #     package-id: "Mobile_iOS"
-      #     project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-      #     target-framework: "net6.0-ios"
-
-      # - name: Build Mobile (MacCatalyst)
-      #   uses: "./.github/workflows/steps/build_mobile"
-      #   with:
-      #     package-id: "Mobile_MacCatalyst"
-      #     project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-      #     target-framework: "net6.0-maccatalyst"
+      - name: Build Mobile (MacCatalyst)
+        uses: "./.github/workflows/steps/build_mobile"
+        with:
+          package-id: "Mobile_MacCatalyst"
+          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+          target-framework: "net6.0-maccatalyst"
 
       # - name: Build Wasm
       #   uses: "./.github/workflows/steps/build_wasm"
