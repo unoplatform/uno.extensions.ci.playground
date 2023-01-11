@@ -25,6 +25,7 @@ inputs:
   certificate: 
      description: "Base64 Certificate for signing .Msix package"
      required: true
+     default: ''
   sign-package: 
      description: "Defines if final .msix package will be signed using certificate input"
      required: false
