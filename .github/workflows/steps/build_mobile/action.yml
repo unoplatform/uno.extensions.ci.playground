@@ -52,7 +52,7 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
-        if ('net6.0-android' -eq 'target-framework') {
+        if ('net6.0-android' -eq '$target-framework') {
           Write-Host  ""
           Write-Host "Building ${{ inputs.package-id }}"
 
