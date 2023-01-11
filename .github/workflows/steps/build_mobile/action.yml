@@ -53,9 +53,5 @@ runs:
       uses: actions/upload-artifact@v2
       with:
         name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
-        path: |
-              .\artifacts\*.apk
-              .\artifacts\*.ipa
-              .\artifacts\*.dSym/**
-              .\artifacts\*.pkg
+        path: .\artifacts
         retention-days: ${{ inputs.artifact-retention-policy }}
