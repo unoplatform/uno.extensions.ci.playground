@@ -23,11 +23,6 @@ runs:
     - name: Install Windows SDK 1903
       shell: pwsh
       run: |
-        $Folder = 'C:\Program Files (x86)\Windows Kits\10\'
-        Write-Host "Checking if Windows SDK is installed"
-        if (Test-Path -Path $Folder) {
-            Write-Host "SDK already installed"
-        } else {
             Write-Host "Installing Windows SDK 1903 (10.0.18362.1)..." -ForegroundColor Cyan
 
             Write-Host "Downloading..."
@@ -39,7 +34,6 @@ runs:
 
             Remove-Item $exePath
             Write-Host "Installed" -ForegroundColor Green
-        }
 
     - name: Sleep for 15s to release dotnet.exe
       run: Start-Sleep -s 15
