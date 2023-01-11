@@ -28,7 +28,7 @@ inputs:
   sign-package: 
      description: "Defines if final .msix package will be signed using certificate input"
      required: false
-     default: 'false'     
+     default: 'true'     
 runs:
   using: "composite"
   steps:

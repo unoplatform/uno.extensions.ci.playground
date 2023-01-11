@@ -46,29 +46,18 @@ runs:
         $certificatePath = "${{ inputs.package-id }}_TemporaryKey.jks"
         [IO.File]::WriteAllBytes("$certificatePath", $jks_cert_byte)
 
-    # - name: Decode the jks
-    #   id: decode_keystore
-    #   uses: timheuer/base64-to-file@v1
-    #   with:
-    #       fileName: "${{ inputs.package-id }}_TemporaryKey.jks"
-    #       encodedString: ${{ inputs.certificate }}
-
     # Create the app package by building and packaging the project
     - name: Build and create package
       shell: pwsh
       run: |
-        Get-ChildItem -Recurs
+        #Get-ChildItem -Recurs
         Write-Host "Building ${{ inputs.package-id }}"
 
         dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release\ ${{ inputs.project-to-build }} /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.jks /p:AndroidSigningStorePass=${{ inputs.certificate-password }} /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
 
-        Get-ChildItem -Recurs
-
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
-
-        Get-ChildItem -Recurs
 
         $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
         Write-Host "Compressing final package: $finalPackageName"
