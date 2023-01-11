@@ -18,6 +18,9 @@ inputs:
     description: 'Target framework (net6.0-android, net6.0-ios, net6.0-maccatalyst)'
     required: true
     default: 'net6.0-android'    
+  certificate: 
+     description: "Base64 Certificate for signing .apk/.ipa package"
+     required: true    
 runs:
   using: "composite"
   steps:
@@ -33,13 +36,25 @@ runs:
         useConfigFile: true
         configFilePath: ./.github/workflows/config/gitversion.yml
 
+    # Decode the base 64 encoded pfx and save the Signing_Certificate
+    - name: Decode the pfx
+      shell: pwsh
+      run: |
+        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
+        $certificatePath = "${{ inputs.package-id }}_TemporaryKey.pfx"
+        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+
     # Create the app package by building and packaging the project
     - name: Build and create package
       shell: pwsh
       run: |
-        Write-Host  ""
-        Write-Host "Building ${{ inputs.package-id }}"
-        dotnet build  -c Release -p:TargetFramework=${{ inputs.target-framework }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
+        if ('net6.0-android' -eq 'target-framework') {
+          Write-Host  ""
+          Write-Host "Building ${{ inputs.package-id }}"
+
+          dotnet build  -c Release -p:TargetFramework=${{ inputs.target-framework }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
+          /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.pfx /p:AndroidSigningKeyAlias=${{ inputs.package-id }}_TemporaryKey
+        }
 
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
@@ -49,9 +64,16 @@ runs:
         Write-Host "Compressing final package: $finalPackageName"
         Compress-Archive -Path '.\bin\Release\*' -DestinationPath $finalPackageName
 
+    # Remove the pfx
+    - name: Remove the pfx
+      shell: pwsh
+      run: Remove-Item -path ${{ inputs.package-id }}_TemporaryKey.pfx
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
-        path: .\artifacts
+        path: |
+          .\artifacts\**\*.aab
+          .\artifacts\**\*.apk
         retention-days: ${{ inputs.artifact-retention-policy }}

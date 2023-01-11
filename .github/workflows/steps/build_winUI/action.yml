@@ -78,7 +78,6 @@ runs:
         Configuration: Release
         Platform: ${{ inputs.project-platform }}
 
-
     # Remove the pfx
     - name: Remove the pfx
       shell: pwsh
