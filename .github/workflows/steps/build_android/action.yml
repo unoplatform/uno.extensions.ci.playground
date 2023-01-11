@@ -64,10 +64,7 @@ runs:
         Get-ChildItem -Recurs
         Write-Host "Building ${{ inputs.package-id }}"
 
-        dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release\ ${{ inputs.project-to-build }}
-        -p:AndroidSigningKeyStore=${{ steps.decode_keystore.outputs.filePath }}
-        -p:AndroidSigningStorePass=${{ inputs.certificate-password }}
-        -p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
+        dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release\ ${{ inputs.project-to-build }} /p:AndroidSigningKeyStore=${{ steps.decode_keystore.outputs.filePath }} /p:AndroidSigningStorePass=${{ inputs.certificate-password }} /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
 
         Get-ChildItem -Recurs
 
