@@ -1,4 +1,4 @@
-name: Build Mobile
+name: Build Android
 description: ""
 
 inputs:
@@ -18,13 +18,15 @@ inputs:
     description: 'Number of days to keep the build artifacts'
     required: false
     default: '90'
-  target-framework: 
-    description: 'Target framework (net6.0-android, net6.0-ios, net6.0-maccatalyst)'
-    required: true
-    default: 'net6.0-android'    
   certificate: 
-     description: "Base64 Certificate for signing .apk/.ipa package"
+     description: "Base64 Certificate for signing .apk package"
      required: true    
+  certificate-password: 
+     description: "Certificate password"
+     required: true      
+  certificate-alias: 
+     description: "Keystore alias"
+     required: true        
 runs:
   using: "composite"
   steps:
@@ -41,24 +43,24 @@ runs:
         configFilePath: ./.github/workflows/config/gitversion.yml
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
+    - name: Decode the jks
       shell: pwsh
       run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
-        $certificatePath = "${{ inputs.package-id }}_TemporaryKey.pfx"
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        $jks_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
+        $certificatePath = "${{ inputs.package-id }}_TemporaryKey.jks"
+        [IO.File]::WriteAllBytes("$certificatePath", $jks_cert_byte)
 
     # Create the app package by building and packaging the project
     - name: Build and create package
       shell: pwsh
       run: |
-        if ('net6.0-android' -eq '${{ inputs.target-framework }}') {
-          Get-ChildItem -Recurs
-          Write-Host "Building ${{ inputs.package-id }}"
+        Get-ChildItem -Recurs
+        Write-Host "Building ${{ inputs.package-id }}"
 
-          dotnet publish  -c Release -p:TargetFramework=${{ inputs.target-framework }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
-          /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.pfx /p:AndroidSigningKeyAlias=${{ inputs.package-id }}_TemporaryKey
-        }
+        dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release\ ${{ inputs.project-to-build }}
+        /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.jks 
+        /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
+        /p:AndroidSigningStorePass=${{ inputs.certificate-password }}
 
         Get-ChildItem -Recurs
 
