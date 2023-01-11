@@ -11,7 +11,7 @@ inputs:
     required: true
     default: ''
   project-folder:
-    description: 'cjproj folder'
+    description: 'csproj folder'
     required: true
     default: ''    
   project-platform:

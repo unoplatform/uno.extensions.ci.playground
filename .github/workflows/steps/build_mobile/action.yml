@@ -10,6 +10,10 @@ inputs:
     description: 'Relative path to .csproj file'
     required: true
     default: ''
+  project-folder:
+    description: 'csproj folder'
+    required: true
+    default: ''        
   artifact-retention-policy: 
     description: 'Number of days to keep the build artifacts'
     required: false
@@ -52,7 +56,7 @@ runs:
           Write-Host  ""
           Write-Host "Building ${{ inputs.package-id }}"
 
-          dotnet build  -c Release -p:TargetFramework=${{ inputs.target-framework }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
+          dotnet build  -c Release -p:TargetFramework=${{ inputs.target-framework }}  -o .\packages\ ${{ inputs.project-to-build }}
           /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.pfx /p:AndroidSigningKeyAlias=${{ inputs.package-id }}_TemporaryKey
         }
 
@@ -62,7 +66,7 @@ runs:
 
         $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
         Write-Host "Compressing final package: $finalPackageName"
-        Compress-Archive -Path '.\bin\Release\*' -DestinationPath $finalPackageName
+        Compress-Archive -Path '${{ inputs.project-folder }}\packages\*' -DestinationPath $finalPackageName
 
     # Remove the pfx
     - name: Remove the pfx
