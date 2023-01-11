@@ -53,7 +53,7 @@ runs:
       shell: pwsh
       run: |
         if ('net6.0-android' -eq '${{ inputs.target-framework }}') {
-          Write-Host  ""
+          Get-ChildItem -Recurs
           Write-Host "Building ${{ inputs.package-id }}"
 
           dotnet publish  -c Release -p:TargetFramework=${{ inputs.target-framework }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
