@@ -54,8 +54,8 @@ runs:
       with:
         name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
         path: |
-              **/*.apk
-              **/*.ipa
-              **/*.dSym/**
-              **/*.pkg
+              .\artifacts\*.apk
+              .\artifacts\*.ipa
+              .\artifacts\*.dSym/**
+              .\artifacts\*.pkg
         retention-days: ${{ inputs.artifact-retention-policy }}

@@ -25,7 +25,10 @@ inputs:
   certificate: 
      description: "Base64 Certificate for signing .Msix package"
      required: true
-     
+  sign-package: 
+     description: "Defines if final .msix package will be signed using certificate input"
+     required: false
+     default: 'false'     
 runs:
   using: "composite"
   steps:
@@ -53,15 +56,21 @@ runs:
     - name: Decode the pfx
       shell: pwsh
       run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
-        $certificatePath = "${{ inputs.package-id }}_TemporaryKey.pfx"
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        if (${{ inputs.certificate }}) {
+          $pfx_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
+          $certificatePath = "${{ inputs.package-id }}_TemporaryKey.pfx"
+          [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        }
 
     # Create the app package by building and packaging the project
     - name: Build and Create Package
       shell: pwsh
       run:  |
-        msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=${{ inputs.package-id }}_TemporaryKey.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+        if ('true' -eq '${{ inputs.sign-package }} ') {
+          msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=${{ inputs.package-id }}_TemporaryKey.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+        }else{
+          msbuild ${{ inputs.project-to-build }} /p:AppxPackageSigningEnabled=false /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+        }
 
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
