@@ -45,10 +45,6 @@ runs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Restore the application
-      shell: pwsh
-      run: msbuild /t:Restore ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }}      
-
     # Install GTK4
     - name: Install GTK4
       continue-on-error: true
@@ -85,6 +81,7 @@ runs:
       shell: pwsh
       run: |
         if ('windows' -eq '${{ inputs.platform }}'){
+          msbuild /t:Restore ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }}  
           msbuild ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }} /p:OutDir=.\packages\
         }else{
           dotnet build  -c Release -o .\packages\ ${{ inputs.project-to-build }}
