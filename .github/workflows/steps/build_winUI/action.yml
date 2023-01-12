@@ -84,7 +84,7 @@ runs:
 
         $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}(${{ inputs.project-platform }})_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
         Write-Host "Compressing final package: $finalPackageName"
-        Compress-Archive -Path '${{ inputs.project-folder }}\packages\*' -DestinationPath $finalPackageName      
+        Compress-Archive -Path '${{ inputs.project-folder }}\bin\Release\*' -DestinationPath $finalPackageName      
       
       env:
         Appx_Bundle: Never
