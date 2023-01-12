@@ -37,14 +37,14 @@ jobs:
       ###################################################################
       #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
       ###################################################################
-      # - name: Build and Sign Mobile (Android)
-      #   uses: "./.github/workflows/steps/build_android"
-      #   with:
-      #     package-id: "Mobile_Android_Signed"
-      #     certificate:  "$ANDROID_BASE64_JKS_CERTIFICATE"
-      #     certificate-password: "$ANDROID_JKS_CERTIFICATE_PASSWORD"
-      #     certificate-alias: "$ANDROID_JKS_CERTIFICATE_ALIAS"
-      #     project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+      - name: Build and Sign Mobile (Android)
+        uses: "./.github/workflows/steps/build_android"
+        with:
+          package-id: "Mobile_Android_Signed"
+          certificate:  "$ANDROID_BASE64_JKS_CERTIFICATE"
+          certificate-password: "$ANDROID_JKS_CERTIFICATE_PASSWORD"
+          certificate-alias: "$ANDROID_JKS_CERTIFICATE_ALIAS"
+          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
 
       - name: Build Mobile (Android)
         uses: "./.github/workflows/steps/build_mobile"
@@ -76,13 +76,13 @@ jobs:
       ###################################################################
       #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
       ###################################################################
-      # - name: Build and Publish Windows(Signed)
-      #   uses: "./.github/workflows/steps/build_winUI"
-      #   with:
-      #     package-id: "WindowsSigned"
-      #     certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
-      #     project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-      #     project-folder: "Demo.Windows" 
+      - name: Build and Publish Windows(Signed)
+        uses: "./.github/workflows/steps/build_winUI"
+        with:
+          package-id: "WindowsSigned"
+          certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
+          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+          project-folder: "Demo.Windows" 
 
       - name: Build and Publish Windows(Unsigned)
         uses: "./.github/workflows/steps/build_winUI"
