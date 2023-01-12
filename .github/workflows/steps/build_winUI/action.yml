@@ -57,7 +57,7 @@ runs:
     - name: Decode the pfx
       shell: pwsh
       run: |
-        if ('true' -eq '${{ inputs.sign-package }} ') {
+        if ('true' -eq '${{ inputs.sign-package }}') {
           Write-Host "Decoding pfx certificate"
           $pfx_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
           $certificatePath = "${{ inputs.package-id }}_TemporaryKey.pfx"
@@ -68,7 +68,7 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run:  |
-        if ('true' -eq '${{ inputs.sign-package }} ') {
+        if ('true' -eq '${{ inputs.sign-package }}') {
           msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=${{ inputs.package-id }}_TemporaryKey.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
         }else{
           msbuild ${{ inputs.project-to-build }} /p:AppxPackageSigningEnabled=false /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
