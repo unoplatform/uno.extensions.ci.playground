@@ -72,7 +72,9 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
-        Get-ChildItem -Path .\artifacts -Include *.* -File -Recurse | foreach { $_.Delete()}
+        if (Test-Path '.\artifacts') {
+          Get-ChildItem -Path .\artifacts -Include *.* -File -Recurse | foreach { $_.Delete()}
+        }
 
         Write-Host  ""
         Write-Host "Building ${{ inputs.package-id }}"
