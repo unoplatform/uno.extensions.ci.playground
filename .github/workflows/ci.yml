@@ -50,13 +50,13 @@ jobs:
       - name: Build Linux
         uses: "./.github/workflows/steps/build_desktop"
         with:
-          package-id: "Linux.FrameBuffer"
+          package-id: "Linux"
           project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"             
        
       - name: Build and Sign Mobile (Android)
         uses: "./.github/workflows/steps/build_android"
         with:
-          package-id: "Mobile_Android(Signed)"
+          package-id: "Mobile_Android_Signed"
           certificate:  "$ANDROID_BASE64_JKS_CERTIFICATE"
           certificate-password: "$ANDROID_BASE64_JKS_CERTIFICATE_PASSWORD"
           certificate-alias: "$ANDROID_BASE64_JKS_CERTIFICATE_ALIAS"
