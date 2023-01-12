@@ -50,6 +50,7 @@ jobs:
       - name: Build Linux
         uses: "./.github/workflows/steps/build_desktop"
         with:
+          platform: 'linux'
           package-id: "Linux"
           project-folder: "Demo.Skia.Linux.FrameBuffer" 
           project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"  
@@ -57,6 +58,7 @@ jobs:
       - name: Build Windows
         uses: "./.github/workflows/steps/build_desktop"
         with:
+          platform: 'windows'
           package-id: "Windows"
           project-folder: "Demo.Windows" 
           project-to-build: "Demo.Windows/Demo.Windows.csproj" 
@@ -64,6 +66,7 @@ jobs:
       - name: Build WPF
         uses: "./.github/workflows/steps/build_desktop"
         with:
+          platform: 'wpf'
           package-id: "WPF"
           project-folder: "Demo.Skia.WPF" 
           project-to-build: "Demo.Skia.WPF/Demo.Skia.WPF.csproj"  
@@ -71,6 +74,7 @@ jobs:
       - name: Build GTK
         uses: "./.github/workflows/steps/build_desktop"
         with:
+          platform: 'gtk'
           package-id: "GTK"
           project-folder: "Demo.Skia.Gtk" 
           project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"  

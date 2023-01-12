@@ -22,8 +22,8 @@ inputs:
     description: 'Number of days to keep the build artifacts'
     required: false
     default: '90'
-  target-platform: 
-    description: 'Possible values are gtk, windows and linux'
+  platform: 
+    description: 'Possible values are gtk, windows, wpf and linux'
     required: false
     default: ''     
 runs:
@@ -54,7 +54,7 @@ runs:
       continue-on-error: true
       shell: pwsh
       run: |
-          if ('gtk' -eq '${{ inputs.target-platform }}') {
+          if ('gtk' -eq '${{ inputs.platform }}') {
             Write-Host "Installing GTK4"
             Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
             choco install git
@@ -84,7 +84,11 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
-        msbuild ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }} /p:OutDir=.\packages\
+        if ('windows' -eq '${{ inputs.platform }}'){
+          msbuild ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }} /p:OutDir=.\packages\
+        }else{
+          dotnet build  -c Release -o .\packages\ ${{ inputs.project-to-build }}
+        }
 
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
