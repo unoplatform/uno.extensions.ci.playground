@@ -80,7 +80,7 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
-        msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=${{ inputs.package-id }}_TemporaryKey.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+        msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform
 
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
