@@ -14,18 +14,14 @@ inputs:
     description: 'Platform to build'
     required: false
     default: 'x86'
-  project-folder:
-    description: 'csproj folder'
-    required: true
-    default: ''     
   artifact-retention-policy: 
     description: 'Number of days to keep the build artifacts'
     required: false
     default: '90'
-  platform: 
-    description: 'Possible values are gtk, windows, wpf and linux'
+  is-gtk: 
+    description: 'If true, current step will install GTK4'
     required: false
-    default: ''     
+    default: 'false'    
 runs:
   using: "composite"
   steps:
@@ -41,16 +37,12 @@ runs:
         useConfigFile: true
         configFilePath: ./.github/workflows/config/gitversion.yml
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
-
     # Install GTK4
     - name: Install GTK4
       continue-on-error: true
       shell: pwsh
       run: |
-          if ('gtk' -eq '${{ inputs.platform }}') {
+          if ('true' -eq '${{ inputs.is-gtk }}') {
             Write-Host "Installing GTK4"
             Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
             choco install git
@@ -80,23 +72,17 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
+        Write-Host  ""
+        Write-Host "Building ${{ inputs.package-id }}"
+        dotnet build  -c Release -p:Platform=${{ inputs.project-platform }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
+
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
-        $packagesFolder ='.\bin\Release\'
-        if ('windows' -eq '${{ inputs.platform }}'){
-          $packagesFolder = '.\packages\'
-          msbuild /t:Restore ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }}  
-          msbuild ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }} /p:OutDir=$packagesFolder
-          $packagesFolder = '${{ inputs.project-folder }}\packages\'
-        }else{
-          dotnet build /p:Platform=${{ inputs.project-platform }} -c Release -o $packagesFolder ${{ inputs.project-to-build }}
-        }
-
         $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}(${{ inputs.project-platform }})_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
         Write-Host "Compressing final package: $finalPackageName"
-        Compress-Archive -Path '$packagesFolder*' -DestinationPath $finalPackageName  
+        Compress-Archive -Path '.\bin\Release\*' -DestinationPath $finalPackageName
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2

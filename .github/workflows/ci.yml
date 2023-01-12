@@ -55,14 +55,6 @@ jobs:
           project-folder: "Demo.Skia.Linux.FrameBuffer" 
           project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"  
 
-      - name: Build Windows
-        uses: "./.github/workflows/steps/build_desktop"
-        with:
-          platform: 'windows'
-          package-id: "Windows"
-          project-folder: "Demo.Windows" 
-          project-to-build: "Demo.Windows/Demo.Windows.csproj" 
-
       - name: Build WPF
         uses: "./.github/workflows/steps/build_desktop"
         with:
