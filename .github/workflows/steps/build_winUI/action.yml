@@ -68,6 +68,10 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run:  |
+        if (Test-Path '.\artifacts') {
+            Remove-Item '.\artifacts' -Force
+        }
+
         if ('true' -eq '${{ inputs.sign-package }}') {
           msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=${{ inputs.package-id }}_TemporaryKey.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
         }else{
@@ -85,7 +89,7 @@ runs:
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
-        Appx_Package_Dir:  .\packages\
+        Appx_Package_Dir:  .\bin\Release\
         Configuration: Release
         Platform: ${{ inputs.project-platform }}
 

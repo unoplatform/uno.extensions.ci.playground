@@ -33,6 +33,10 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
+        if (Test-Path '.\artifacts') {
+          Remove-Item '.\artifacts' -Force
+        }
+
         Write-Host "Building.."
         dotnet build  -c Release -o .\bin\Release\ ${{ inputs.project-to-build }}
 
