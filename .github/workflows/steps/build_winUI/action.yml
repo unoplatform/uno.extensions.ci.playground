@@ -57,7 +57,8 @@ runs:
     - name: Decode the pfx
       shell: pwsh
       run: |
-        if (${{ inputs.certificate }}) {
+        if ('true' -eq '${{ inputs.sign-package }} ') {
+          Write-Host "Decoding pfx certificate"
           $pfx_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
           $certificatePath = "${{ inputs.package-id }}_TemporaryKey.pfx"
           [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
