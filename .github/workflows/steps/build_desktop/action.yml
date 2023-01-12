@@ -72,10 +72,8 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
-        if (Test-Path '.\artifacts') {
-          Remove-Item '.\artifacts' -Force
-        }
-              
+        Get-ChildItem -Path .\artifacts -Include *.* -File -Recurse | foreach { $_.Delete()}
+
         Write-Host  ""
         Write-Host "Building ${{ inputs.package-id }}"
         dotnet build  -c Release -p:Platform=${{ inputs.project-platform }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
