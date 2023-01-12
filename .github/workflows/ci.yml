@@ -31,21 +31,21 @@ jobs:
       - name: Install Dependencies
         uses: "./.github/workflows/steps/install_dependencies"         
 
-      - name: Build and Publish Windows(Signed)
-        uses: "./.github/workflows/steps/build_winUI"
-        with:
-          package-id: "WindowsSigned"
-          certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
-          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-          project-folder: "Demo.Windows" 
+      # - name: Build and Publish Windows(Signed)
+      #   uses: "./.github/workflows/steps/build_winUI"
+      #   with:
+      #     package-id: "WindowsSigned"
+      #     certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
+      #     project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+      #     project-folder: "Demo.Windows" 
 
-      - name: Build and Publish Windows(Unsigned)
-        uses: "./.github/workflows/steps/build_winUI"
-        with:
-          package-id: "WindowsUnsigned"
-          sign-package: 'false'
-          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-          project-folder: "Demo.Windows"            
+      # - name: Build and Publish Windows(Unsigned)
+      #   uses: "./.github/workflows/steps/build_winUI"
+      #   with:
+      #     package-id: "WindowsUnsigned"
+      #     sign-package: 'false'
+      #     project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+      #     project-folder: "Demo.Windows"            
 
       - name: Build Linux
         uses: "./.github/workflows/steps/build_desktop"

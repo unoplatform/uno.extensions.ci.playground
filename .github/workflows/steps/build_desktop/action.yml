@@ -80,7 +80,7 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
-        msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform
+        msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:OutDir=.\packages\
 
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
