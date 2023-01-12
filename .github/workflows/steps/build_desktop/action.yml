@@ -84,7 +84,7 @@ runs:
           msbuild /t:Restore ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }}  
           msbuild ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }} /p:OutDir=.\packages\
         }else{
-          dotnet build  -c Release -o .\packages\ ${{ inputs.project-to-build }}
+          dotnet build /p:Platform=${{ inputs.project-platform }} -c Release -o .\packages\ ${{ inputs.project-to-build }}
         }
 
         $finalPackageFolder = ".\artifacts"
