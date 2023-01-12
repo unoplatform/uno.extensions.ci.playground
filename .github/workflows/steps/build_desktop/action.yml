@@ -80,20 +80,23 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
-        if ('windows' -eq '${{ inputs.platform }}'){
-          msbuild /t:Restore ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }}  
-          msbuild ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }} /p:OutDir=.\packages\
-        }else{
-          dotnet build /p:Platform=${{ inputs.project-platform }} -c Release -o .\packages\ ${{ inputs.project-to-build }}
-        }
-
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
+        $packagesFolder ='.\bin\Release\'
+        if ('windows' -eq '${{ inputs.platform }}'){
+          $packagesFolder = '.\packages\'
+          msbuild /t:Restore ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }}  
+          msbuild ${{ inputs.project-to-build }} /p:Configuration=Release /p:Platform=${{ inputs.project-platform }} /p:OutDir=$packagesFolder
+          $packagesFolder = '${{ inputs.project-folder }}\packages\'
+        }else{
+          dotnet build /p:Platform=${{ inputs.project-platform }} -c Release -o $packagesFolder ${{ inputs.project-to-build }}
+        }
+
         $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}(${{ inputs.project-platform }})_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
         Write-Host "Compressing final package: $finalPackageName"
-        Compress-Archive -Path '${{ inputs.project-folder }}\packages\*' -DestinationPath $finalPackageName  
+        Compress-Archive -Path '$packagesFolder*' -DestinationPath $finalPackageName  
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
