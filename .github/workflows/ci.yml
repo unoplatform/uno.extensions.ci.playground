@@ -66,7 +66,7 @@ jobs:
       - name: Build Mobile (Android)
         uses: "./.github/workflows/steps/build_mobile"
         with:
-          package-id: "Mobile_iOS"
+          package-id: "Mobile_Android"
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net6.0-android"
 
