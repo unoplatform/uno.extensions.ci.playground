@@ -92,7 +92,10 @@ runs:
     # Remove the pfx
     - name: Remove the pfx
       shell: pwsh
-      run: Remove-Item -path ${{ inputs.package-id }}_TemporaryKey.pfx
+      run: |
+        if ('true' -eq '${{ inputs.sign-package }}') {
+          Remove-Item -path ${{ inputs.package-id }}_TemporaryKey.pfx
+        }
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
