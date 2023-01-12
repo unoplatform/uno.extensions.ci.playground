@@ -14,14 +14,18 @@ inputs:
     description: 'Platform to build'
     required: false
     default: 'x86'
+  project-folder:
+    description: 'csproj folder'
+    required: true
+    default: ''     
   artifact-retention-policy: 
     description: 'Number of days to keep the build artifacts'
     required: false
     default: '90'
-  is-gtk: 
-    description: 'If true, current step will install GTK4'
+  target-platform: 
+    description: 'Possible values are gtk, windows and linux'
     required: false
-    default: 'false'    
+    default: ''     
 runs:
   using: "composite"
   steps:
@@ -37,12 +41,16 @@ runs:
         useConfigFile: true
         configFilePath: ./.github/workflows/config/gitversion.yml
 
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+
     # Install GTK4
     - name: Install GTK4
       continue-on-error: true
       shell: pwsh
       run: |
-          if ('true' -eq '${{ inputs.is-gtk }}') {
+          if ('gtk' -eq '${{ inputs.target-platform }}') {
             Write-Host "Installing GTK4"
             Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
             choco install git
@@ -72,9 +80,7 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
-        Write-Host  ""
-        Write-Host "Building ${{ inputs.package-id }}"
-        dotnet build  -c Release -p:Platform=${{ inputs.project-platform }}  -o .\bin\Release\ ${{ inputs.project-to-build }}
+        msbuild ${{ inputs.project-to-build }} /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=${{ inputs.package-id }}_TemporaryKey.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
 
         $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
@@ -82,7 +88,7 @@ runs:
 
         $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}(${{ inputs.project-platform }})_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
         Write-Host "Compressing final package: $finalPackageName"
-        Compress-Archive -Path '.\bin\Release\*' -DestinationPath $finalPackageName
+        Compress-Archive -Path '${{ inputs.project-folder }}\packages\*' -DestinationPath $finalPackageName  
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2

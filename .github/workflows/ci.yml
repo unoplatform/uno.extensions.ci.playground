@@ -51,7 +51,30 @@ jobs:
         uses: "./.github/workflows/steps/build_desktop"
         with:
           package-id: "Linux"
-          project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"             
+          project-folder: "Demo.Skia.Linux.FrameBuffer" 
+          project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"  
+
+      - name: Build Windows
+        uses: "./.github/workflows/steps/build_desktop"
+        with:
+          package-id: "Windows"
+          project-folder: "Demo.Windows" 
+          project-to-build: "Demo.Windows/Demo.Windows.csproj" 
+
+      - name: Build WPF
+        uses: "./.github/workflows/steps/build_desktop"
+        with:
+          package-id: "WPF"
+          project-folder: "Demo.Skia.WPF" 
+          project-to-build: "Demo.Skia.WPF/Demo.Skia.WPF.csproj"  
+                  
+      - name: Build GTK
+        uses: "./.github/workflows/steps/build_desktop"
+        with:
+          package-id: "GTK"
+          project-folder: "Demo.Skia.Gtk" 
+          project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"  
+          is-gtk: 'true'                     
        
       - name: Build and Sign Mobile (Android)
         uses: "./.github/workflows/steps/build_android"
@@ -89,22 +112,3 @@ jobs:
         with:
           package-id: "Wasm"
           project-to-build: "Demo.Wasm/Demo.Wasm.csproj"   
-
-      - name: Build Windows
-        uses: "./.github/workflows/steps/build_desktop"
-        with:
-          package-id: "Windows"
-          project-to-build: "Demo.Windows/Demo.Windows.csproj" 
-
-      - name: Build WPF
-        uses: "./.github/workflows/steps/build_desktop"
-        with:
-          package-id: "WPF"
-          project-to-build: "Demo.Skia.WPF/Demo.Skia.WPF.csproj"  
-                  
-      - name: Build GTK
-        uses: "./.github/workflows/steps/build_desktop"
-        with:
-          package-id: "GTK"
-          project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"  
-          is-gtk: 'true'
