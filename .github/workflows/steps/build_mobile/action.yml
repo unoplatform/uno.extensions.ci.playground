@@ -37,10 +37,10 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
-        if (Test-Path '.\artifacts') {
+        if (Test-Path -Path '.\artifacts') {
           Get-ChildItem -Path .\artifacts -Include *.* -File -Recurse | foreach { $_.Delete()}
         }
-        
+
         Write-Host  ""
         Write-Host "Building ${{ inputs.package-id }}"
         dotnet build  -c Release -p:TargetFramework=${{ inputs.target-framework }}  -o .\bin\Release\ ${{ inputs.project-to-build }}

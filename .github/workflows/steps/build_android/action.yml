@@ -50,7 +50,7 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
-        if (Test-Path '.\artifacts') {
+        if (Test-Path -Path '.\artifacts') {
           Get-ChildItem -Path .\artifacts -Include *.* -File -Recurse | foreach { $_.Delete()}
         }
         
