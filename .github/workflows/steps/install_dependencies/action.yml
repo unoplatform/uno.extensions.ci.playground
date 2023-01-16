@@ -38,6 +38,11 @@ runs:
       shell: pwsh
       run: |
         if ('true' -eq '${{ inputs.install-windowsSDK }}') {
+          $Folder = 'C:\Program Files (x86)\Windows Kits\10\'
+          Write-Host "Checking if Windows SDK is installed"
+          if (Test-Path -Path $Folder) {
+              Write-Host "SDK already installed"
+          } else {
               Write-Host "Installing Windows SDK 1903 (10.0.18362.1)..." -ForegroundColor Cyan
 
               Write-Host "Downloading..."
@@ -49,6 +54,7 @@ runs:
 
               Remove-Item $exePath
               Write-Host "Installed" -ForegroundColor Green
+          }
         }
 
     - name: Sleep for 15s to release dotnet.exe
@@ -91,7 +97,7 @@ runs:
       continue-on-error: true
       shell: pwsh
       run: |
-        if ('true' -eq '${{ inputs.install-mobileWorkloads }}') {
+        if ('true' -eq '${{ inputs.install-gtk }}') {
           $Folder = 'C:\gtk-build\gtk\x64\release\bin\'
           Write-Host "Checking if GTK4 is installed"
 
