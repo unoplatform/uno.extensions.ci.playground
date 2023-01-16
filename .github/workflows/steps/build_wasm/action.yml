@@ -2,7 +2,7 @@ name: Build Wasm
 description: ""
 
 inputs:
-  package_Id:  # id of input
+  package-id:  # id of input
     description: 'Compiled Package ID'
     required: true
     default: 'release_wasm'

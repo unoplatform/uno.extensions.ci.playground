@@ -146,49 +146,49 @@ jobs:
           project-to-build: "Demo.Wasm/Demo.Wasm.csproj" 
           compress-publish-artifacts: 'false'
 
-  ###################################################################
-  #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
-  ###################################################################
-  build_windows_signed:
-    name: Build and Sign Windows
-    runs-on: windows-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-         fetch-depth: 0 
+  # ###################################################################
+  # #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
+  # ###################################################################
+  # build_windows_signed:
+  #   name: Build and Sign Windows
+  #   runs-on: windows-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #        fetch-depth: 0 
 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"                
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"                
             
-      - name: Build and Publish Windows(Signed)
-        uses: "./.github/workflows/steps/build_windows"
-        with:
-          package-id: "WindowsSigned"
-          certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
-          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-          project-folder: "Demo.Windows" 
+  #     - name: Build and Publish Windows(Signed)
+  #       uses: "./.github/workflows/steps/build_windows"
+  #       with:
+  #         package-id: "WindowsSigned"
+  #         certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
+  #         project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+  #         project-folder: "Demo.Windows" 
 
-  build_windows_unsigned:
-    name: Build Windows Unsigned
-    runs-on: windows-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-         fetch-depth: 0 
+  # build_windows_unsigned:
+  #   name: Build Windows Unsigned
+  #   runs-on: windows-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #        fetch-depth: 0 
 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"                
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"                
       
-      - name: Build and Publish Windows(Unsigned)
-        uses: "./.github/workflows/steps/build_windows"
-        with:
-          package-id: "WindowsUnsigned"
-          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-          project-folder: "Demo.Windows"            
+  #     - name: Build and Publish Windows(Unsigned)
+  #       uses: "./.github/workflows/steps/build_windows"
+  #       with:
+  #         package-id: "WindowsUnsigned"
+  #         project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+  #         project-folder: "Demo.Windows"            
 
   # build_linux:
   #   name: Build Linux
