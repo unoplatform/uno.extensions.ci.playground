@@ -22,7 +22,11 @@ inputs:
      required: true      
   certificate-alias: 
      description: "Keystore alias"
-     required: true        
+     required: true   
+  sign-package: 
+     description: "If true will use the 'certificate' input to sign final .apk package"
+     required: false
+     default: 'false'            
 runs:
   using: "composite"
   steps:
@@ -42,9 +46,11 @@ runs:
     - name: Decode the jks
       shell: pwsh
       run: |
-        $jks_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
-        $certificatePath = "${{ inputs.package-id }}_TemporaryKey.jks"
-        [IO.File]::WriteAllBytes("$certificatePath", $jks_cert_byte)
+        if ('true' -eq '${{ inputs.sign-package }}') {
+          $jks_cert_byte = [System.Convert]::FromBase64String("${{ inputs.certificate }}")
+          $certificatePath = "${{ inputs.package-id }}_TemporaryKey.jks"
+          [IO.File]::WriteAllBytes("$certificatePath", $jks_cert_byte)
+        }
 
     # Create the app package by building and packaging the project
     - name: Build and create package
@@ -52,7 +58,11 @@ runs:
       run: |
         Write-Host "Building ${{ inputs.package-id }}"
 
-        dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.jks /p:AndroidSigningStorePass=${{ inputs.certificate-password }} /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
+        if ('true' -eq '${{ inputs.sign-package }}') {
+          dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.jks /p:AndroidSigningStorePass=${{ inputs.certificate-password }} /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
+        }else{
+          dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
+        }
 
         $finalPackageFolder = ".\artifacts${{ inputs.package-id }}"
         Write-Host "Creating package folder: $finalPackageFolder"
@@ -63,10 +73,13 @@ runs:
         Compress-Archive -Path '.\bin\Release${{ inputs.package-id }}\*' -DestinationPath $finalPackageName
 
     # Remove the jks
-    - name: Remove the pfx
+    - name: Remove the jks
       shell: pwsh
-      run: Remove-Item -path ${{ inputs.package-id }}_TemporaryKey.jks
-
+      run: |
+        if ('true' -eq '${{ inputs.sign-package }}') {
+          Remove-Item -path ${{ inputs.package-id }}_TemporaryKey.jks
+        }
+        
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
