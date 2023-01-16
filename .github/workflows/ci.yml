@@ -144,7 +144,6 @@ jobs:
         with:
           package-id: "Wasm"
           project-to-build: "Demo.Wasm/Demo.Wasm.csproj" 
-          compress-publish-artifacts: 'false'
 
   # ###################################################################
   # #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
