@@ -13,16 +13,35 @@ on:
       - release/**
 
 env:
-  #[REQUIRED FOR build_winUI if sign-package: 'true']
+  # *** [REQUIRED FOR GENERATING SIGNED .MSIX PACKAGE] ***
+  #For Creating a valid PFX certificate:
+  # 1.- Open a new powershell terminal as administrator and use this command: New-SelfSignedCertificate -DnsName {YOURCERT.NAME.COM} -CertStoreLocation cert:\LocalMachine\My
+  # 2.-When Finished press Win + R and type  certlm.msc. Then go to Personal folder -> Certificates and you should be able to see your previously created certificate
+  # 3.-Double Click it then go to Details tab. Click on the bottom right button 'Copy to file'. A wizard will open
+  # 4.-On first page Click Next 
+  #   -> Second page click "Yes, Export the private key" 
+  #   -> Third page select third option "PKCS #12 (.PFX)" and click on Next 
+  #   -> In Fourth page (Security) set a password for the certificate and click on Next
+  #   -> In last page please set a Name for the certificate and select where to put it. Use a simple location like C:\
+  # 5.-Last part consists in converting the .pfx certificate to Base64 format. For doing that please go to the path where you exported the certificate (C:\ in this example) and open a Powershell terminal as administrator, then use this command: [convert]::ToBase64String((Get-Content -path "C:\{YOUR_PFX_FILE.pfx}" -Encoding byte))
+  # 6.-After that you will be able to see the Base64 string in the terminal output. Now you can copy that string and create a new Encrypted Secret in your repository and then use it as variable value. 
+  # See how to create an encrypted secret in here:https://docs.github.com/es/actions/security-guides/encrypted-secrets
   WINUI_BASE64_PFX_CERTIFICATE: "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"
   
-  #[REQUIRED FOR build_Android]
+  # *** [REQUIRED FOR GENERATING SIGNED .APK PACKAGE] ***
+  # For creating a valid .jks certificate:
+  # 1.- Go to C:\ and open a powershell terminal as administrator
+  # 2.- Copy and paste this command keytool –genkey –alias contoso -keyalg RSA –keystore cert.jks –keysize 2048 and execute it
+  # 3.- You will be asked to answer some questions like Password, Alias, Countryu, etc for your certificate
+  # 4.-Last part consists in converting the .pfx certificate to Base64 format. Use this command: [convert]::ToBase64String((Get-Content -path "C:\{YOUR_JKS_FILE.jks}" -Encoding byte))
+  # 5.-After that you will be able to see the Base64 string in the terminal output. Now you can copy that string and create a new Encrypted Secret in your repository and then use it as variable value. 
+  # See how to create an encrypted secret in here:https://docs.github.com/es/actions/security-guides/encrypted-secrets
   ANDROID_BASE64_JKS_CERTIFICATE: "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"
   ANDROID_JKS_CERTIFICATE_PASSWORD: "contoso"
   ANDROID_JKS_CERTIFICATE_ALIAS: "contoso"
 jobs:
-  build_tool:
-    name: Build UNO
+  build_windows:
+    name: Build and Package Windows
     runs-on: windows-latest
     timeout-minutes: 60
     steps:
@@ -33,10 +52,23 @@ jobs:
 
       - name: Install Dependencies
         uses: "./.github/workflows/steps/install_dependencies"         
-       
-      ###################################################################
-      #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
-      ###################################################################
+
+  ###################################################################
+  #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
+  ###################################################################
+  build_android_signed:
+    name: Build and Sign Android
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build and Sign Mobile (Android)
         uses: "./.github/workflows/steps/build_android"
         with:
@@ -46,6 +78,19 @@ jobs:
           certificate-alias: "$ANDROID_JKS_CERTIFICATE_ALIAS"
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
 
+  build_android:
+    name: Build Android
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build Mobile (Android)
         uses: "./.github/workflows/steps/build_mobile"
         with:
@@ -53,6 +98,19 @@ jobs:
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net6.0-android"
 
+  build_ios:
+    name: Build iOS
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build Mobile (iOS)
         uses: "./.github/workflows/steps/build_mobile"
         with:
@@ -60,6 +118,19 @@ jobs:
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net6.0-ios"
 
+  build_maccatalyst:
+    name: Build MacCatalyst
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build Mobile (MacCatalyst)
         uses: "./.github/workflows/steps/build_mobile"
         with:
@@ -67,47 +138,125 @@ jobs:
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net6.0-maccatalyst"
 
+  build_wasm:
+    name: Build Wasm
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build Wasm
         uses: "./.github/workflows/steps/build_wasm"
         with:
           package-id: "Wasm"
           project-to-build: "Demo.Wasm/Demo.Wasm.csproj" 
 
-      ###################################################################
-      #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
-      ###################################################################
+  ###################################################################
+  #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
+  ###################################################################
+  build_windows_signed:
+    name: Build and Sign Windows
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+            
       - name: Build and Publish Windows(Signed)
-        uses: "./.github/workflows/steps/build_winUI"
+        uses: "./.github/workflows/steps/build_windows"
         with:
           package-id: "WindowsSigned"
           certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
           project-to-build: "Demo.Windows/Demo.Windows.csproj"  
           project-folder: "Demo.Windows" 
 
+  build_windows_unsigned:
+    name: Build Windows Unsigned
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build and Publish Windows(Unsigned)
-        uses: "./.github/workflows/steps/build_winUI"
+        uses: "./.github/workflows/steps/build_windows"
         with:
           package-id: "WindowsUnsigned"
           sign-package: 'false'
           project-to-build: "Demo.Windows/Demo.Windows.csproj"  
           project-folder: "Demo.Windows"            
 
+  build_linux:
+    name: Build Linux
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build Linux
         uses: "./.github/workflows/steps/build_desktop"
         with:
           package-id: "Linux"
           project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"  
 
+  build_wpf:
+    name: Build WPF
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
+      
       - name: Build WPF
         uses: "./.github/workflows/steps/build_desktop"
         with:
           package-id: "WPF"
           project-to-build: "Demo.Skia.WPF/Demo.Skia.WPF.csproj"  
 
-      #THIS STEP IS THE LAST ONE AS IT TAKES MORE TIME TO INSTALL AND CONFIGURE GTK DEPENDENCIES            
+  build_gtk:
+    name: Build Gtk
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
+
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"       
+        with:
+          install-gtk: 'true'           
+              
       - name: Build GTK
         uses: "./.github/workflows/steps/build_desktop"
         with:
           package-id: "GTK"
-          project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"  
-          is-gtk: 'true'                                 
+          project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"                               
