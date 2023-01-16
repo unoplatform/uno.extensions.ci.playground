@@ -40,8 +40,11 @@ env:
   ANDROID_JKS_CERTIFICATE_PASSWORD: "contoso"
   ANDROID_JKS_CERTIFICATE_ALIAS: "contoso"
 jobs:
-  # build_windows:
-  #   name: Build and Package Windows
+  # # ###################################################################
+  # # #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
+  # # ###################################################################
+  # build_android_signed:
+  #   name: Build and Sign Android
   #   runs-on: windows-latest
   #   timeout-minutes: 60
   #   steps:
@@ -51,32 +54,20 @@ jobs:
   #        fetch-depth: 0 
 
   #     - name: Install Dependencies
-  #       uses: "./.github/workflows/steps/install_dependencies"         
-
-  # ###################################################################
-  # #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
-  # ###################################################################
-  build_android_signed:
-    name: Build and Sign Android
-    runs-on: windows-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-         fetch-depth: 0 
-
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"                
+  #       uses: "./.github/workflows/steps/install_dependencies"                
       
-      - name: Build and Sign Mobile (Android)
-        uses: "./.github/workflows/steps/build_android"
-        with:
-          package-id: "Mobile_Android_Signed"
-          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+  #     - name: Build and Sign Mobile (Android)
+  #       uses: "./.github/workflows/steps/build_android"
+  #       with:
+  #         sign-package: 'true'
+  #         package-id: "Android_Signed"
+  #         certificate: "$ANDROID_BASE64_JKS_CERTIFICATE"
+  #         certificate-password:  "$ANDROID_JKS_CERTIFICATE_PASSWORD"
+  #         certificate-alias:  "$ANDROID_JKS_CERTIFICATE_ALIAS"
+  #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
 
   # build_android:
-  #   name: Build Android
+  #   name: Build Android Unsigned
   #   runs-on: windows-latest
   #   timeout-minutes: 60
   #   steps:
@@ -91,7 +82,7 @@ jobs:
   #     - name: Build Mobile (Android)
   #       uses: "./.github/workflows/steps/build_mobile"
   #       with:
-  #         package-id: "Mobile_Android"
+  #         package-id: "Android"
   #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
   #         target-framework: "net6.0-android"
 
@@ -135,69 +126,69 @@ jobs:
   #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
   #         target-framework: "net6.0-maccatalyst"
 
-  # build_wasm:
-  #   name: Build Wasm
-  #   runs-on: windows-latest
-  #   timeout-minutes: 60
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #       with:
-  #        fetch-depth: 0 
+  build_wasm:
+    name: Build Wasm
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
 
-  #     - name: Install Dependencies
-  #       uses: "./.github/workflows/steps/install_dependencies"                
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
       
-  #     - name: Build Wasm
-  #       uses: "./.github/workflows/steps/build_wasm"
-  #       with:
-  #         package-id: "Wasm"
-  #         project-to-build: "Demo.Wasm/Demo.Wasm.csproj" 
+      - name: Build Wasm
+        uses: "./.github/workflows/steps/build_wasm"
+        with:
+          package-id: "Wasm"
+          project-to-build: "Demo.Wasm/Demo.Wasm.csproj" 
+          compress-publish-artifacts: 'false'
 
-  # ###################################################################
-  # #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
-  # ###################################################################
-  # build_windows_signed:
-  #   name: Build and Sign Windows
-  #   runs-on: windows-latest
-  #   timeout-minutes: 60
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #       with:
-  #        fetch-depth: 0 
+  ###################################################################
+  #  MAKE SURE TOP VARIABLES ARE NOT EMPTY BEFORE RUNNING THIS STEP #                                     
+  ###################################################################
+  build_windows_signed:
+    name: Build and Sign Windows
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
 
-  #     - name: Install Dependencies
-  #       uses: "./.github/workflows/steps/install_dependencies"                
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
             
-  #     - name: Build and Publish Windows(Signed)
-  #       uses: "./.github/workflows/steps/build_windows"
-  #       with:
-  #         package-id: "WindowsSigned"
-  #         certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
-  #         project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-  #         project-folder: "Demo.Windows" 
+      - name: Build and Publish Windows(Signed)
+        uses: "./.github/workflows/steps/build_windows"
+        with:
+          package-id: "WindowsSigned"
+          certificate: "$WINUI_BASE64_PFX_CERTIFICATE"
+          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+          project-folder: "Demo.Windows" 
 
-  # build_windows_unsigned:
-  #   name: Build Windows Unsigned
-  #   runs-on: windows-latest
-  #   timeout-minutes: 60
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #       with:
-  #        fetch-depth: 0 
+  build_windows_unsigned:
+    name: Build Windows Unsigned
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0 
 
-  #     - name: Install Dependencies
-  #       uses: "./.github/workflows/steps/install_dependencies"                
+      - name: Install Dependencies
+        uses: "./.github/workflows/steps/install_dependencies"                
       
-  #     - name: Build and Publish Windows(Unsigned)
-  #       uses: "./.github/workflows/steps/build_windows"
-  #       with:
-  #         package-id: "WindowsUnsigned"
-  #         sign-package: 'false'
-  #         project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-  #         project-folder: "Demo.Windows"            
+      - name: Build and Publish Windows(Unsigned)
+        uses: "./.github/workflows/steps/build_windows"
+        with:
+          package-id: "WindowsUnsigned"
+          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+          project-folder: "Demo.Windows"            
 
   # build_linux:
   #   name: Build Linux

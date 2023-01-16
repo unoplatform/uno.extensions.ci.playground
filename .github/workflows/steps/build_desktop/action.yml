@@ -18,6 +18,14 @@ inputs:
     description: 'Number of days to keep the build artifacts'
     required: false
     default: '90'
+  publish-artifacts: 
+     description: "If true, compilation artifacts will be published and put under Job Summary section"
+     required: false
+     default: 'true'   
+  compress-publish-artifacts: 
+     description: "If true, compilation artifacts will be packaged in a .zip file before being put under Job Summary Section"
+     required: false
+     default: 'true'       
 runs:
   using: "composite"
   steps:
@@ -45,9 +53,15 @@ runs:
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
-        $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}(${{ inputs.project-platform }})_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
-        Write-Host "Compressing final package: $finalPackageName"
-        Compress-Archive -Path '.\bin\Release${{ inputs.package-id }}\*' -DestinationPath $finalPackageName
+        if ('true' -eq '${{ inputs.publish-artifacts }}') {
+          $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}(${{ inputs.project-platform }})_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
+          Write-Host "Compressing final package: $finalPackageName"
+          if ('true' -eq '${{ inputs.compress-publish-artifacts }}') {
+            Compress-Archive -Path '.\bin\Release${{ inputs.package-id }}\*' -DestinationPath $finalPackageName
+          }else{
+            Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\artifacts${{ inputs.package-id }}" -recurse -Force  
+          }
+        }
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2

@@ -15,18 +15,26 @@ inputs:
     required: false
     default: '90'
   certificate: 
-     description: "Base64 Certificate for signing .apk package"
-     required: true    
+     description: "Base64 Certificate for signing .apk package. Required if 'sign-package': 'true'"
+     required: false    
   certificate-password: 
-     description: "Certificate password"
-     required: true      
+     description: "Certificate password. Required if 'sign-package': 'true'"
+     required: false      
   certificate-alias: 
-     description: "Keystore alias"
-     required: true   
+     description: "Keystore alias. Required if 'sign-package': 'true'"
+     required: false   
   sign-package: 
      description: "If true will use the 'certificate' input to sign final .apk package"
      required: false
-     default: 'false'            
+     default: 'false'   
+  publish-artifacts: 
+     description: "If true, compilation artifacts will be published and put under Job Summary section"
+     required: false
+     default: 'true'    
+  compress-publish-artifacts: 
+     description: "If true, compilation artifacts will be packaged in a .zip file before being put under Job Summary Section"
+     required: false
+     default: 'true'                 
 runs:
   using: "composite"
   steps:
@@ -61,16 +69,22 @@ runs:
         if ('true' -eq '${{ inputs.sign-package }}') {
           dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} /p:AndroidSigningKeyStore=${{ inputs.package-id }}_TemporaryKey.jks /p:AndroidSigningStorePass=${{ inputs.certificate-password }} /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
         }else{
-          dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} /p:AndroidSigningKeyAlias=${{ inputs.certificate-alias }} 
+          dotnet publish  -c Release -p:TargetFramework=net6.0-android  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} 
         }
 
         $finalPackageFolder = ".\artifacts${{ inputs.package-id }}"
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
-        $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
-        Write-Host "Compressing final package: $finalPackageName"
-        Compress-Archive -Path '.\bin\Release${{ inputs.package-id }}\*' -DestinationPath $finalPackageName
+        if ('true' -eq '${{ inputs.publish-artifacts }}') {
+          $finalPackageName = "$finalPackageFolder\${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}.zip"
+          Write-Host "Compressing final package: $finalPackageName"
+          if ('true' -eq '${{ inputs.compress-publish-artifacts }}') {
+            Compress-Archive -Path '.\bin\Release${{ inputs.package-id }}\*' -DestinationPath $finalPackageName
+          }else{
+            Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\artifacts${{ inputs.package-id }}" -recurse -Force  
+          }
+        }
 
     # Remove the jks
     - name: Remove the jks
