@@ -95,7 +95,7 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
-        dotnet build  -c Debug -p:TargetFramework=net6.0-ios /p:packageApp=false /p:buildForSimulator=true  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} 
+        dotnet build  -c Release -p:TargetFramework=net6.0-ios /p:packageApp=false /p:buildForSimulator=true  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} 
 
         $finalPackageFolder = ".\artifacts${{ inputs.package-id }}"
         Write-Host "Creating package folder: $finalPackageFolder"
@@ -106,7 +106,10 @@ runs:
           Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\" -recurse -Force  
         }
 
-        Get-ChildItem -Recurse
+        for entry in "."/*
+        do
+          echo "$entry"
+        done
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
