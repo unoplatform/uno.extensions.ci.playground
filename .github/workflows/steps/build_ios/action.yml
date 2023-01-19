@@ -95,7 +95,7 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
-        dotnet build  -c Release -p:TargetFramework=net6.0-ios /p:packageApp=false /p:buildForSimulator=true  -o .\bin\Release\ ${{ inputs.project-to-build }} 
+        dotnet publish  -c Release -p:TargetFramework=net6.0-ios /p:packageApp=false /p:buildForSimulator=true  -o .\bin\Release\ ${{ inputs.project-to-build }} 
 
         $finalPackageFolder = ".\artifacts${{ inputs.package-id }}"
         Write-Host "Creating package folder: $finalPackageFolder"
