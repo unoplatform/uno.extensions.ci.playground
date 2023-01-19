@@ -102,6 +102,7 @@ jobs:
         uses: "./.github/workflows/steps/build_ios"
         with:
           package-id: "iOS"
+          project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
 
   # build_maccatalyst:

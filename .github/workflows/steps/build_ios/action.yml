@@ -10,6 +10,10 @@ inputs:
     description: 'Relative path to .csproj file'
     required: true
     default: ''   
+  project-folder:
+    description: 'csproj folder'
+    required: true
+    default: ''        
   artifact-retention-policy: 
     description: 'Number of days to keep the build artifacts'
     required: false
@@ -99,7 +103,7 @@ runs:
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
           Write-Host "Compressing final package"
-          Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\" -recurse -Force  
+          Copy-Item -Path '${{ inputs.project-folder }}\bin\Release${{ inputs.package-id }}\*' -Destination ".\" -recurse -Force  
         }
 
     - name: Upload Artifacts
