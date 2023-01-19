@@ -106,9 +106,7 @@ runs:
           Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\artifacts${{ inputs.package-id }}" -recurse -Force  
         }
 
-        ls
-        ls Demo.Mobile
-        ls Demo.Mobile/artifactsiOS
+        ls *
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
