@@ -106,7 +106,7 @@ runs:
           Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\artifacts${{ inputs.package-id }}" -recurse -Force  
         }
 
-        ls *
+        ls -R
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
