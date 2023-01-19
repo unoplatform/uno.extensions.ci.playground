@@ -113,5 +113,5 @@ runs:
       uses: actions/upload-artifact@v2
       with:
         name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
-        path: .\artifacts${{ inputs.package-id }}
+        path: ${{ inputs.project-folder }}\artifacts${{ inputs.package-id }}
         retention-days: ${{ inputs.artifact-retention-policy }}
