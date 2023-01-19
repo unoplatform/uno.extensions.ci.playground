@@ -103,7 +103,7 @@ runs:
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
           Write-Host "Compressing final package"
-          Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\artifacts" -recurse -Force  
+          Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\artifacts${{ inputs.package-id }}" -recurse -Force  
         }
 
     - name: Upload Artifacts
