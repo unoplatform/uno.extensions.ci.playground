@@ -106,10 +106,7 @@ runs:
           Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\" -recurse -Force  
         }
 
-        for entry in "."/*
-        do
-          echo "$entry"
-        done
+        find . -maxdepth 1 -type f -not -path '*/\.*' | sed 's/^\.\///g' | sort
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
