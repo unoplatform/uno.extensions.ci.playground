@@ -95,24 +95,24 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
-        dotnet publish  -c Release -p:RuntimeIdentifier='ios-arm64' -p:CodesignProvision='EnviosDev2022' -p:CodesignKey='Apple Development: Patricio Valdes (752234A22L)' -p:TargetFramework=net6.0-ios /p:ArchiveOnBuild=true  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} 
+        dotnet publish  -c Release -p:RuntimeIdentifier='ios-arm64' -p:CodesignProvision='EnviosDev2022' -p:CodesignKey='Apple Development: Patricio Valdes (752234A22L)' -p:TargetFramework=net6.0-ios /p:ArchiveOnBuild=true  -o ${{ inputs.project-folder }}\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} 
 
-        $finalPackageFolder = ".\artifacts${{ inputs.package-id }}"
+        $finalPackageFolder = "artifacts${{ inputs.package-id }}"
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
           Write-Host "Compressing final package"
-          Copy-Item -Path '.\bin\Release${{ inputs.package-id }}\*' -Destination ".\artifacts${{ inputs.package-id }}" -recurse -Force  
+          Copy-Item -Path '${{ inputs.project-folder }}\bin\Release${{ inputs.package-id }}\*' -Destination "artifacts${{ inputs.package-id }}" -recurse -Force  
         }
 
-        tree Demo.Mobile
+        ls
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
-        path: .\artifacts${{ inputs.package-id }}\
+        path: artifacts${{ inputs.package-id }}\
         retention-days: ${{ inputs.artifact-retention-policy }}
 
         
