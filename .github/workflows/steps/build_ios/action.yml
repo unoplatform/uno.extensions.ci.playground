@@ -95,7 +95,7 @@ runs:
     - name: Build and create package
       shell: pwsh
       run: |
-        dotnet publish  -c Release -p:RuntimeIdentifier='ios-arm64' -p:CodesignProvision='EnviosDev2022' -p:CodesignKey=' Patricio Valdes (752234A22L)' -p:TargetFramework=net6.0-ios /p:ArchiveOnBuild=true  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} 
+        dotnet publish  -c Release -p:RuntimeIdentifier='ios-arm64' -p:CodesignProvision='EnviosDev2022' -p:CodesignKey='Apple Development: Patricio Valdes (752234A22L)' -p:TargetFramework=net6.0-ios /p:ArchiveOnBuild=true  -o .\bin\Release${{ inputs.package-id }}\ ${{ inputs.project-to-build }} 
 
         $finalPackageFolder = ".\artifacts${{ inputs.package-id }}"
         Write-Host "Creating package folder: $finalPackageFolder"
