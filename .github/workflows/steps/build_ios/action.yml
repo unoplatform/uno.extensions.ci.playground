@@ -107,18 +107,27 @@ runs:
         }
 
         ls
+        ls Demo.Mobile
+        ls artifacts${{ inputs.package-id }}
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
-        path: artifacts${{ inputs.package-id }}\
+        path: artifacts${{ inputs.package-id }}
         retention-days: ${{ inputs.artifact-retention-policy }}
 
         
-    - name: Upload Artifacts
+    - name: Upload Artifacts2
       uses: actions/upload-artifact@v2
       with:
         name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
-        path: ${{ inputs.project-folder }}\bin\Release${{ inputs.package-id }}\
+        path: ${{ inputs.project-folder }}\bin\Release${{ inputs.package-id }}
+        retention-days: ${{ inputs.artifact-retention-policy }}
+
+    - name: Upload Artifacts3
+      uses: actions/upload-artifact@v2
+      with:
+        name: "${{ inputs.package-id }}_${{ steps.gitversion.outputs.assemblySemVer }}" 
+        path: ${{ inputs.project-folder }}\**\*.ipa
         retention-days: ${{ inputs.artifact-retention-policy }}
