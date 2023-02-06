@@ -61,12 +61,12 @@ runs:
       shell: pwsh
       run: |
             $errors = ''
-            if ('' -eq '${{ inputs.project_to_build }}') { $errors = $errors + '[project-to-build] is not valid.' + "`r`n"  }
+            if ('' -eq '${{ inputs.project-to-build }}') { $errors = $errors + '[project-to-build] is not valid.' + "`r`n"  }
             if ('' -eq '${{ inputs.certificate }}') { $errors = $errors +'[certificate] is not valid. Please make sure the name of the .p12 certificate is correct and it exists in secure files' + "`r`n"  }
-            if ('' -eq '${{ inputs.certificate_password }}') { $errors = $errors +'[certificate-password] is not valid. Please make sure you are using the correct .p12 certificate password' + "`r`n"  }
-            if ('' -eq '${{ inputs.codesign_key }}') { $errors = $errors +'[codesign-key] is not valid. Please make sure the name of the name of the distribution certificate is correct. E.g. Apple Development: Contoso Contoso (752234A22L)' + "`r`n"  }
-            if ('' -eq '${{ inputs.codesign_provision }}') { $errors = $errors +'[codesign-provision] is not valid. Please make sure the provisioning profile name is correct. This is the name you entered in the Apple Developer portal when creating your provisioning profile' + "`r`n"  }
-            if ('' -eq '${{ inputs.provisioning_profile }}') { $errors = $errors +'[provisioning-profile] is not valid. Please make sure the .mobileprovision file is correct and it exists in secure files' + "`r`n"  }
+            if ('' -eq '${{ inputs.certificate-password }}') { $errors = $errors +'[certificate-password] is not valid. Please make sure you are using the correct .p12 certificate password' + "`r`n"  }
+            if ('' -eq '${{ inputs.codesign-key }}') { $errors = $errors +'[codesign-key] is not valid. Please make sure the name of the name of the distribution certificate is correct. E.g. Apple Development: Contoso Contoso (752234A22L)' + "`r`n"  }
+            if ('' -eq '${{ inputs.codesign-provision }}') { $errors = $errors +'[codesign-provision] is not valid. Please make sure the provisioning profile name is correct. This is the name you entered in the Apple Developer portal when creating your provisioning profile' + "`r`n"  }
+            if ('' -eq '${{ inputs.provisioning-profile }}') { $errors = $errors +'[provisioning-profile] is not valid. Please make sure the .mobileprovision file is correct and it exists in secure files' + "`r`n"  }
             
             if (-not ([string]::IsNullOrEmpty($errors))){
                 $errors
