@@ -6,5 +6,5 @@ namespace Demo.Services;
 public interface IApiClient
 {
 	[Get("/api/weatherforecast")]
-	Task<ApiResponse<WeatherForecast>> GetWeather(CancellationToken cancellationToken = default);
+	Task<ApiResponse<IEnumerable<WeatherForecast>>> GetWeather(CancellationToken cancellationToken = default);
 }

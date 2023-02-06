@@ -1,8 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<RuntimeIdentifier>win10-$(Platform)</RuntimeIdentifier>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
 		<RootNamespace>UnoWinUIQuickStart</RootNamespace>
 		<Platforms>x86;x64;arm64</Platforms>
@@ -25,14 +24,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.7.0-dev.730" />
-		<PackageReference Include="Uno.Material.WinUI" Version="2.5.0-dev.6" />
-		<PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.5.0-dev.8" />
-		<PackageReference Include="Uno.Toolkit.WinUI" Version="2.5.0-dev.8" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.7.30" />
+		<PackageReference Include="Uno.Material.WinUI" Version="2.5.0-dev.14" />
+		<PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.5.0-dev.17" />
+		<PackageReference Include="Uno.Toolkit.WinUI" Version="2.5.0-dev.17" />
 		<PackageReference Include="Uno.Extensions.Authentication.WinUI" Version="2.3.0-dev.485" />
 		<PackageReference Include="Uno.Extensions.Hosting.WinUI" Version="2.3.0-dev.485" />
 		<PackageReference Include="Uno.Extensions.Localization" Version="2.3.0-dev.485" />
@@ -68,7 +67,7 @@
 		the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
 		must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
 		-->
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.28" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.28" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" />
 	</ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 namespace Demo.Infrastructure;
 
-public class DebugHttpHandler : DelegatingHandler
+internal class DebugHttpHandler : DelegatingHandler
 {
 	private readonly ILogger _logger;
 	public DebugHttpHandler(ILogger<DebugHttpHandler> logger, HttpMessageHandler? innerHandler = null)

@@ -14,7 +14,7 @@ public partial record MainModel
 	{
 		_navigator = navigator;
 		Title = $"Main - {appInfo?.Value?.Title}";
-		Name = State<string>.Value(this, ()=>"");
+		Name = State<string>.Value(this, () => string.Empty);
 	}
 
 	public async Task GoToSecond()

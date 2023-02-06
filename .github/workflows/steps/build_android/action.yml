@@ -50,6 +50,22 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Verify required parameters
+      shell: pwsh
+      run: |
+            $errors = ''
+            if ('' -eq '${{ parameters.project-to-build }}') { $errors = $errors + '[project-to-build] is not valid.' + "`r`n"  }
+            if ('true' -eq '${{ parameters.sign-package }}'){
+              if ('' -eq '${{ parameters.certificate }}') { $errors = $errors + '[certificate] is not valid. Please make sure the name of the .jks certificate is correct and it exists in secure files' + "`r`n"  }
+              if ('' -eq '${{ parameters.certificate-password }}') { $errors = $errors + '[certificate-password] is not valid.' + "`r`n"  }
+              if ('' -eq '${{ parameters.certificate-alias }}') { $errors = $errors + '[certificate-alias] is not valid' + "`r`n"  }
+            }
+
+            if (-not ([string]::IsNullOrEmpty($errors))){
+                $errors
+                throw "Some required parameters are missing"
+            }
+
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
       with:

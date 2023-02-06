@@ -2,6 +2,8 @@
   "solution": {
     "path": "Demo.sln",
     "projects": [
+      "Demo.Tests\\Demo.Tests.csproj",
+      "Demo.UITests\\Demo.UITests.csproj",
       "Demo.Mobile\\Demo.Mobile.csproj",
       "Demo.Skia.Gtk\\Demo.Skia.Gtk.csproj",
       "Demo.Wasm\\Demo.Wasm.csproj",
