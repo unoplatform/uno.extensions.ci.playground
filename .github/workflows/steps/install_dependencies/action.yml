@@ -25,7 +25,7 @@ runs:
 
     # Install GTK MacOS
     - name: Install GTK Workloads
-      if: ${{ eq( inputs['target-platform'], 'skiagtk_macos') }}
+      if: ${{ inputs.target-platform == 'skiagtk_macos' }}
       shell: bash
       run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -36,7 +36,7 @@ runs:
 
     # Install GTK Windows
     - name: Install GTK Workloads
-      if: ${{ eq( inputs['target-platform'], 'skiagtk_win') }}
+      if: ${{ inputs.target-platform == 'skiagtk_win' }}
       shell: pwsh
       run: |
            Write-Host "Installing GTK4"
@@ -64,14 +64,14 @@ runs:
 
     # Install Linux
     - name: Install Linux Workloads
-      if: ${{ contains( inputs['target-platform'], 'linux') }}
+      if: ${{ inputs.target-platform == 'linux' }}
       shell: bash
       run: |
            dotnet tool install -g uno.check
            ~/.dotnet/tools/uno-check --ci --non-interactive --fix --target ios --target android --target macos --manifest ${{ inputs.unocheck-manifest }}
 
     - name: Install ${{ inputs.target-platform }} Workloads
-      if: ${{ !contains( inputs['target-platform'], 'linux') && !contains( inputs['target-platform'], 'skiagtk')}}
+      if: ${{ inputs.target-platform != 'linux' && !contains( inputs.target-platform, 'skiagtk')}}
       shell: pwsh
       run: |
            dotnet tool install -g uno.check
