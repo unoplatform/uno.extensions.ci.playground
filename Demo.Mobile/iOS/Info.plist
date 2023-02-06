@@ -41,8 +41,6 @@
 		<string>Media.xcassets/AppIcons.appiconset</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<key>CFBundleIdentifier</key>
-		<string>com.kwikdollar.envios</string>
 		<!--
 		Adjust this to your application's encryption usage.
 		<key>ITSAppUsesNonExemptEncryption</key>
