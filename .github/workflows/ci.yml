@@ -57,7 +57,7 @@ jobs:
           package-id: "Mobile_iOS"
           project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-          target-framework: "net6.0-ios"
+          target-framework: "net7.0-ios"
 
   build_maccatalyst:
     name: Build MacCatalyst
@@ -79,7 +79,7 @@ jobs:
           package-id: "Mobile_MacCatalyst"
           project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-          target-framework: "net6.0-maccatalyst"
+          target-framework: "net7.0-maccatalyst"
 
   build_wasm:
     name: Build Wasm

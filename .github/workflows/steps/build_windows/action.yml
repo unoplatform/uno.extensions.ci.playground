@@ -103,18 +103,18 @@ runs:
           msbuild ${{ inputs.project-to-build }} /p:AppxPackageSigningEnabled=false /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
         }
 
-        $finalPackageFolder = "artifacts$"
+        $finalPackageFolder = ".\artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
-          Copy-Item -Path '${{ inputs.project-folder }}\bin\Release\*' -Destination "artifacts" -recurse -Force  
+          Copy-Item -Path '${{ inputs.project-folder }}\bin\Release\*' -Destination ".\artifacts" -recurse -Force  
         } 
       
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
-        Appx_Package_Dir:  ${{ inputs.project-folder }}\bin\Release
+        Appx_Package_Dir:  .\bin\Release\
         Configuration: Release
         Platform: ${{ inputs.project-platform }}
 
@@ -130,5 +130,5 @@ runs:
       uses: actions/upload-artifact@v2
       with:
         name: "${{ inputs.package-id }}(${{ inputs.project-platform }})_${{ steps.gitversion.outputs.assemblySemVer }}" 
-        path: artifacts
+        path: .\artifacts
         retention-days: ${{ inputs.artifact-retention-policy }}
