@@ -231,7 +231,6 @@ jobs:
           certificate: "WINDOWS_BASE64_PFX_CERTIFICATE"
           project-folder: 'Demo.Windows'
           project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-          project-folder: "Demo.Windows"
 
   build_ios_signed:
     name: Build and Sign iOS
