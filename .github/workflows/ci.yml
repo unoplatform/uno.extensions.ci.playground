@@ -61,7 +61,7 @@ jobs:
 
   build_maccatalyst:
     name: Build MacCatalyst
-    runs-on: windows-latest
+    runs-on: macos-latest
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -83,7 +83,7 @@ jobs:
 
   build_wasm:
     name: Build Wasm
-    runs-on: windows-latest
+    runs-on: macos-latest
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -125,7 +125,7 @@ jobs:
 
   build_linux:
     name: Build Linux
-    runs-on: windows-latest
+    runs-on: macos-latest
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -167,7 +167,7 @@ jobs:
 
   build_gtk:
     name: Build Gtk
-    runs-on: windows-latest
+    runs-on: macos-latest
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -188,7 +188,7 @@ jobs:
 
   build_android_signed:
     name: Build and Sign Android
-    runs-on: windows-latest
+    runs-on: macos-latest
     timeout-minutes: 60
     steps:
       - name: Checkout
