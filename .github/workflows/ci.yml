@@ -32,6 +32,7 @@ jobs:
         uses: "./.github/workflows/steps/build_android"
         with:
           package-id: "Android"
+          project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net7.0-android"
 
