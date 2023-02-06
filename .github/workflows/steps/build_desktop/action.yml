@@ -60,7 +60,7 @@ runs:
       run: |
         Write-Host  ""
         Write-Host "Building ${{ inputs.package-id }}"
-        dotnet build  -c Release -p:Platform=${{ inputs.project-platform }}  -o ${{ inputs.project_folder }}\bin\Release ${{ inputs.project-to-build }}
+        dotnet build  -c Release -p:Platform=${{ inputs.project-platform }}  -o ${{ inputs.project-folder }}\bin\Release ${{ inputs.project-to-build }}
 
         $finalPackageFolder = "artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
