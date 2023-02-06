@@ -85,7 +85,7 @@ runs:
     #############################################
     #                 IMPORTANT                 #
     #############################################
-    #Uncomment this step if you see an error indicating the build its expecting a different version of XCode, update the correct number in the lines 73 and 74 and try again
+    #Uncomment this step if you see an error indicating the build its expecting a different version of XCode, update the correct number in the lines 93 and 94 and try again
     # - name: Set XCode Version
     #   if: runner.os == 'macOS'
     #   shell: bash
