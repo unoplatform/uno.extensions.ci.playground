@@ -83,18 +83,20 @@ jobs:
   build_wasm:
     name: Build Wasm
     runs-on: macos-latest
-    timeout-minutes: ${{ fromJSON(env.JOB_TIMEOUT) }}
     steps:
       - name: Checkout
+        timeout-minutes: ${{ fromJSON(env.JOB_TIMEOUT) }}
         uses: actions/checkout@v3
         with:
          fetch-depth: 0 
       - name: Install Dependencies
+        timeout-minutes: ${{ fromJSON(env.JOB_TIMEOUT) }}
         uses: "./.github/workflows/steps/install_dependencies"
         with:
           target-platform: 'wasm'
       
       - name: Build Wasm
+        timeout-minutes: ${{ fromJSON(env.JOB_TIMEOUT) }}
         uses: "./.github/workflows/steps/build_wasm"
         with:
           package-id: "Wasm"
