@@ -93,8 +93,8 @@ runs:
       shell: pwsh
       run: |
         $projectFolder = '${{ inputs.project-folder }}'
-        if ('' -eq $projectFolder){
-          $projectFolder = '${{ inputs.project-to-build }}'.SubString(0, '${{ inputs.project-to-build }}'.LastIndexOf('/'))
+        if (('' -eq $projectFolder) -and ("${{ inputs.project-to-build }}" -contains "/")){
+          $projectFolder = "${{ inputs.project-to-build }}".SubString(0, "${{ inputs.project-to-build }}".LastIndexOf('/'))
         }
 
         Write-Host "Building ${{ inputs.package-id }}"
@@ -111,7 +111,7 @@ runs:
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
           Write-Host "Compressing final package"
-          Copy-Item -Path '$projectFolder\bin\Release\*' -Destination "artifacts" -recurse -Force  
+          Copy-Item -Path "$projectFolder\bin\Release\*" -Destination "artifacts" -recurse -Force  
         }
 
     # Remove the jks
