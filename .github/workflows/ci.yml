@@ -84,7 +84,7 @@ jobs:
   build_wasm:
     name: Build Wasm
     runs-on: macos-latest
-    timeout-minutes: $JOB_TIMEOUT
+    timeout-minutes: ${{ env.JOB_TIMEOUT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
