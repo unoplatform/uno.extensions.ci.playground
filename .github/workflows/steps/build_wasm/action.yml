@@ -66,7 +66,7 @@ runs:
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
-          Copy-Item -Path "$projectFolder\bin\Release\*" -Destination "artifacts" -recurse -Force  
+          Copy-Item -Path $projectFolder\bin\Release\* -Destination "artifacts" -recurse -Force  
         }
 
     - name: Upload Artifacts

@@ -111,7 +111,7 @@ runs:
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
           Write-Host "Compressing final package"
-          Copy-Item -Path "$projectFolder\bin\Release\*" -Destination "artifacts" -recurse -Force  
+          Copy-Item -Path $projectFolder\bin\Release\* -Destination "artifacts" -recurse -Force  
         }
 
     # Remove the jks
