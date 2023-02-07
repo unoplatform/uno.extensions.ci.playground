@@ -58,16 +58,21 @@ runs:
     - name: Build and Create Package
       shell: pwsh
       run: |
+        $projectFolder = '${{ inputs.project-folder }}'
+        if ('' -eq $projectFolder){
+          $projectFolder = $projectFolder.SubString(0, $projectFolder.LastIndexOf('/')) 
+        }
+
         Write-Host  ""
         Write-Host "Building ${{ inputs.package-id }}"
-        dotnet build  -c Release -p:Platform=${{ inputs.project-platform }}  -o ${{ inputs.project-folder }}\bin\Release ${{ inputs.project-to-build }}
+        dotnet build  -c Release -p:Platform=${{ inputs.project-platform }}  -o $projectFolder\bin\Release ${{ inputs.project-to-build }}
 
         $finalPackageFolder = "artifacts"
         Write-Host "Creating package folder: $finalPackageFolder"
         New-Item -ItemType Directory -Force -Path $finalPackageFolder
 
         if ('true' -eq '${{ inputs.publish-artifacts }}') {
-          Copy-Item -Path '${{ inputs.project-folder }}\bin\Release\*' -Destination "artifacts" -recurse -Force  
+          Copy-Item -Path '$projectFolder\bin\Release\*' -Destination "artifacts" -recurse -Force  
         }
 
     - name: Upload Artifacts

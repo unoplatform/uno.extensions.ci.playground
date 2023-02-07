@@ -32,7 +32,6 @@ jobs:
         uses: "./.github/workflows/steps/build_android"
         with:
           package-id: "Android"
-          project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net7.0-android"
 
@@ -55,7 +54,6 @@ jobs:
         uses: "./.github/workflows/steps/build_mobile"
         with:
           package-id: "Mobile_iOS"
-          project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net7.0-ios"
 
@@ -77,7 +75,6 @@ jobs:
         uses: "./.github/workflows/steps/build_mobile"
         with:
           package-id: "Mobile_MacCatalyst"
-          project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
           target-framework: "net7.0-maccatalyst"
 
@@ -99,7 +96,6 @@ jobs:
         uses: "./.github/workflows/steps/build_wasm"
         with:
           package-id: "Wasm"
-          project-folder: 'Demo.Wasm'
           project-to-build: "Demo.Wasm/Demo.Wasm.csproj" 
 
   build_windows_unsigned:
@@ -120,8 +116,7 @@ jobs:
         uses: "./.github/workflows/steps/build_windows"
         with:
           package-id: "WindowsUnsigned"
-          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
-          project-folder: "Demo.Windows"            
+          project-to-build: "Demo.Windows/Demo.Windows.csproj"           
 
   build_linux:
     name: Build Linux
@@ -141,7 +136,6 @@ jobs:
         uses: "./.github/workflows/steps/build_desktop"
         with:
           package-id: "Linux"
-          project-folder: 'Demo.Skia.Linux.FrameBuffer'
           project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"  
 
   build_wpf:
@@ -162,7 +156,6 @@ jobs:
         uses: "./.github/workflows/steps/build_desktop"
         with:
           package-id: "WPF"
-          project-folder: 'Demo.Skia.WPF'
           project-to-build: "Demo.Skia.WPF/Demo.Skia.WPF.csproj"  
 
   build_gtk:
@@ -183,7 +176,6 @@ jobs:
         uses: "./.github/workflows/steps/build_desktop"
         with:
           package-id: "GTK"
-          project-folder: 'Demo.Skia.Gtk'
           project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"
 
   build_android_signed:
@@ -207,7 +199,6 @@ jobs:
           certificate: "ANDROID_BASE64_JKS_CERTIFICATE"
           certificate-password:  "ANDROID_JKS_CERTIFICATE_PASSWORD"
           certificate-alias:  "ANDROID_JKS_CERTIFICATE_ALIAS"
-          project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
 
   build_windows_signed:
@@ -229,7 +220,6 @@ jobs:
         with:
           package-id: "signed_windows"
           certificate: "WINDOWS_BASE64_PFX_CERTIFICATE"
-          project-folder: 'Demo.Windows'
           project-to-build: "Demo.Windows/Demo.Windows.csproj"  
 
   build_ios_signed:
@@ -253,5 +243,4 @@ jobs:
           certificate: 'BASE64_p12_CERTIFICATE'
           certificate-password: 'contoso'
           provisioning-profile: 'BASE64_PROV_PROFILE'
-          project-folder: 'Demo.Mobile'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
