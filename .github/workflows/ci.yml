@@ -13,70 +13,70 @@ on:
       - release/**
 
 jobs:
-  build_android:
-    name: Build Android Unsigned
-    runs-on: macos-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-         fetch-depth: 0 
+  # build_android:
+  #   name: Build Android Unsigned
+  #   runs-on: macos-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #        fetch-depth: 0 
 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'android'
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'android'
       
-      - name: Build Mobile (Android)
-        uses: "./.github/workflows/steps/build_android"
-        with:
-          package-id: "Android"
-          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-          target-framework: "net7.0-android"
+  #     - name: Build Mobile (Android)
+  #       uses: "./.github/workflows/steps/build_android"
+  #       with:
+  #         package-id: "Android"
+  #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+  #         target-framework: "net7.0-android"
 
-  build_ios:
-    name: Build iOS
-    runs-on: windows-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-         fetch-depth: 0 
+  # build_ios:
+  #   name: Build iOS
+  #   runs-on: windows-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #        fetch-depth: 0 
 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'ios'
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'ios'
       
-      - name: Build Mobile (iOS)
-        uses: "./.github/workflows/steps/build_mobile"
-        with:
-          package-id: "Mobile_iOS"
-          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-          target-framework: "net7.0-ios"
+  #     - name: Build Mobile (iOS)
+  #       uses: "./.github/workflows/steps/build_mobile"
+  #       with:
+  #         package-id: "Mobile_iOS"
+  #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+  #         target-framework: "net7.0-ios"
 
-  build_maccatalyst:
-    name: Build MacCatalyst
-    runs-on: macos-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-         fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'macos'
+  # build_maccatalyst:
+  #   name: Build MacCatalyst
+  #   runs-on: macos-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #        fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'macos'
       
-      - name: Build Mobile (MacCatalyst)
-        uses: "./.github/workflows/steps/build_mobile"
-        with:
-          package-id: "Mobile_MacCatalyst"
-          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
-          target-framework: "net7.0-maccatalyst"
+  #     - name: Build Mobile (MacCatalyst)
+  #       uses: "./.github/workflows/steps/build_mobile"
+  #       with:
+  #         package-id: "Mobile_MacCatalyst"
+  #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+  #         target-framework: "net7.0-maccatalyst"
 
   build_wasm:
     name: Build Wasm
@@ -98,149 +98,149 @@ jobs:
           package-id: "Wasm"
           project-to-build: "Demo.Wasm/Demo.Wasm.csproj" 
 
-  build_windows_unsigned:
-    name: Build Windows Unsigned
-    runs-on: windows-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-         fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'uwp'
+  # build_windows_unsigned:
+  #   name: Build Windows Unsigned
+  #   runs-on: windows-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #        fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'uwp'
       
-      - name: Build and Publish Windows(Unsigned)
-        uses: "./.github/workflows/steps/build_windows"
-        with:
-          package-id: "WindowsUnsigned"
-          project-to-build: "Demo.Windows/Demo.Windows.csproj"           
+  #     - name: Build and Publish Windows(Unsigned)
+  #       uses: "./.github/workflows/steps/build_windows"
+  #       with:
+  #         package-id: "WindowsUnsigned"
+  #         project-to-build: "Demo.Windows/Demo.Windows.csproj"           
 
-  build_linux:
-    name: Build Linux
-    runs-on: macos-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-         fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'linux'
+  # build_linux:
+  #   name: Build Linux
+  #   runs-on: macos-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #        fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'linux'
       
-      - name: Build Linux
-        uses: "./.github/workflows/steps/build_desktop"
-        with:
-          package-id: "Linux"
-          project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"  
+  #     - name: Build Linux
+  #       uses: "./.github/workflows/steps/build_desktop"
+  #       with:
+  #         package-id: "Linux"
+  #         project-to-build: "Demo.Skia.Linux.FrameBuffer/Demo.Skia.Linux.FrameBuffer.csproj"  
 
-  build_wpf:
-    name: Build WPF
-    runs-on: windows-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-         fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'skiawpf'
+  # build_wpf:
+  #   name: Build WPF
+  #   runs-on: windows-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #        fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'skiawpf'
       
-      - name: Build WPF
-        uses: "./.github/workflows/steps/build_desktop"
-        with:
-          package-id: "WPF"
-          project-to-build: "Demo.Skia.WPF/Demo.Skia.WPF.csproj"  
+  #     - name: Build WPF
+  #       uses: "./.github/workflows/steps/build_desktop"
+  #       with:
+  #         package-id: "WPF"
+  #         project-to-build: "Demo.Skia.WPF/Demo.Skia.WPF.csproj"  
 
-  build_gtk:
-    name: Build Gtk
-    runs-on: macos-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-         fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'skiagtk_macos'
+  # build_gtk:
+  #   name: Build Gtk
+  #   runs-on: macos-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #        fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'skiagtk_macos'
               
-      - name: Build GTK
-        uses: "./.github/workflows/steps/build_desktop"
-        with:
-          package-id: "GTK"
-          project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"
+  #     - name: Build GTK
+  #       uses: "./.github/workflows/steps/build_desktop"
+  #       with:
+  #         package-id: "GTK"
+  #         project-to-build: "Demo.Skia.Gtk/Demo.Skia.Gtk.csproj"
 
-  build_android_signed:
-    name: Build and Sign Android
-    runs-on: macos-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'android'
-      - name: Build and Sign Mobile (Android)
-        uses: "./.github/workflows/steps/build_android"
-        with:
-          sign-package: 'true'
-          package-id: "signed_android"
-          certificate: "ANDROID_BASE64_JKS_CERTIFICATE"
-          certificate-password:  "ANDROID_JKS_CERTIFICATE_PASSWORD"
-          certificate-alias:  "ANDROID_JKS_CERTIFICATE_ALIAS"
-          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+  # build_android_signed:
+  #   name: Build and Sign Android
+  #   runs-on: macos-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'android'
+  #     - name: Build and Sign Mobile (Android)
+  #       uses: "./.github/workflows/steps/build_android"
+  #       with:
+  #         sign-package: 'true'
+  #         package-id: "signed_android"
+  #         certificate: "ANDROID_BASE64_JKS_CERTIFICATE"
+  #         certificate-password:  "ANDROID_JKS_CERTIFICATE_PASSWORD"
+  #         certificate-alias:  "ANDROID_JKS_CERTIFICATE_ALIAS"
+  #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
 
-  build_windows_signed:
-    name: Build and Sign Windows
-    runs-on: windows-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"
-        with:
-          target-platform: 'uwp'
+  # build_windows_signed:
+  #   name: Build and Sign Windows
+  #   runs-on: windows-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"
+  #       with:
+  #         target-platform: 'uwp'
             
-      - name: Build and Publish Windows(Signed)
-        uses: "./.github/workflows/steps/build_windows"
-        with:
-          package-id: "signed_windows"
-          certificate: "WINDOWS_BASE64_PFX_CERTIFICATE"
-          project-to-build: "Demo.Windows/Demo.Windows.csproj"  
+  #     - name: Build and Publish Windows(Signed)
+  #       uses: "./.github/workflows/steps/build_windows"
+  #       with:
+  #         package-id: "signed_windows"
+  #         certificate: "WINDOWS_BASE64_PFX_CERTIFICATE"
+  #         project-to-build: "Demo.Windows/Demo.Windows.csproj"  
 
-  build_ios_signed:
-    name: Build and Sign iOS
-    runs-on: macos-latest
-    timeout-minutes: 60
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 
-      - name: Install Dependencies
-        uses: "./.github/workflows/steps/install_dependencies"     
-        with:
-          target-platform: 'ios'
+  # build_ios_signed:
+  #   name: Build and Sign iOS
+  #   runs-on: macos-latest
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0 
+  #     - name: Install Dependencies
+  #       uses: "./.github/workflows/steps/install_dependencies"     
+  #       with:
+  #         target-platform: 'ios'
       
-      - name: Build Mobile (iOS)
-        uses: "./.github/workflows/steps/build_ios"
-        with:
-          package-id: "signed_ios"
-          certificate: 'BASE64_p12_CERTIFICATE'
-          certificate-password: 'contoso'
-          provisioning-profile: 'BASE64_PROV_PROFILE'
-          project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
+  #     - name: Build Mobile (iOS)
+  #       uses: "./.github/workflows/steps/build_ios"
+  #       with:
+  #         package-id: "signed_ios"
+  #         certificate: 'BASE64_p12_CERTIFICATE'
+  #         certificate-password: 'contoso'
+  #         provisioning-profile: 'BASE64_PROV_PROFILE'
+  #         project-to-build: "Demo.Mobile/Demo.Mobile.csproj" 
