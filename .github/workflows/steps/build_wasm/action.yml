@@ -54,7 +54,7 @@ runs:
       shell: pwsh
       run: |
         $projectFolder = '${{ inputs.project-folder }}'
-        if (('' -eq '$projectFolder') -and ("${{ inputs.project-to-build }}" -contains "/")){
+        if (('' -eq $projectFolder) -and ("${{ inputs.project-to-build }}".Contains('/') )){
           Write-Host "Adjusting proj folder"
           $projectFolder = "${{ inputs.project-to-build }}".SubString(0, "${{ inputs.project-to-build }}".LastIndexOf('/'))
         }
