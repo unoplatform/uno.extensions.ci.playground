@@ -60,7 +60,7 @@ runs:
       run: |
         $projectFolder = '${{ inputs.project-folder }}'
         if ('' -eq $projectFolder){
-          $projectFolder = ${{ inputs.project-to-build }}.SubString(0, ${{ inputs.project-to-build }}.LastIndexOf('/'))
+          $projectFolder = '${{ inputs.project-to-build }}'.SubString(0, '${{ inputs.project-to-build }}'.LastIndexOf('/'))
         }
 
         Write-Host  ""

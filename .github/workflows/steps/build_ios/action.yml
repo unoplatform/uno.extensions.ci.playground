@@ -205,7 +205,7 @@ runs:
       run: |
         $projectFolder = '${{ inputs.project-folder }}'
         if ('' -eq $projectFolder){
-          $projectFolder = ${{ inputs.project-to-build }}.SubString(0, ${{ inputs.project-to-build }}.LastIndexOf('/'))
+          $projectFolder = '${{ inputs.project-to-build }}'.SubString(0, '${{ inputs.project-to-build }}'.LastIndexOf('/'))
         }
 
         dotnet publish  -c Release -p:RuntimeIdentifier='ios-arm64' -p:CodesignProvision='${{ inputs.codesign-provision }}' -p:CodesignKey='${{ inputs.codesign-key }}' -p:TargetFramework=${{ inputs.target-framework }} /p:ArchiveOnBuild=true  -o $projectFolder\bin\Release ${{ inputs.project-to-build }} 
