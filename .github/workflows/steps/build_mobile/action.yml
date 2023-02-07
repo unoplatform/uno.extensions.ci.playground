@@ -80,6 +80,6 @@ runs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: "${{ inputs.target-framework.Split('-')[-1].LastIndexOf('-')}}_${{ steps.gitversion.outputs.assemblySemVer }}"
+        name: "${{ inputs.target-framework}}_${{ steps.gitversion.outputs.assemblySemVer }}"
         path: artifacts
         retention-days: ${{ inputs.artifact-retention-policy }}
