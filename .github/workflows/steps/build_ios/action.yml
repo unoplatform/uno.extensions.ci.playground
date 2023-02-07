@@ -205,8 +205,10 @@ runs:
       run: |
         $projectFolder = '${{ inputs.project-folder }}'
         if (('' -eq $projectFolder) -and ("${{ inputs.project-to-build }}" -contains "/")){
+          Write-Host "Adjusting proj folder"
           $projectFolder = "${{ inputs.project-to-build }}".SubString(0, "${{ inputs.project-to-build }}".LastIndexOf('/'))
         }
+        Write-Host "Current proj folder is: $projectFolder"
 
         dotnet publish  -c Release -p:RuntimeIdentifier='ios-arm64' -p:CodesignProvision='${{ inputs.codesign-provision }}' -p:CodesignKey='${{ inputs.codesign-key }}' -p:TargetFramework=${{ inputs.target-framework }} /p:ArchiveOnBuild=true  -o $projectFolder\bin\Release ${{ inputs.project-to-build }} 
 
