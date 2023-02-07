@@ -21,7 +21,7 @@ inputs:
   target-framework: 
     description: 'Target framework (net7.0-android, net7.0-ios, net7.0-maccatalyst)'
     required: true
-    default: 'net7.0-android'
+    default: ''
   publish-artifacts: 
      description: "If true, compilation artifacts will be published and put under Job Summary section"
      required: false
@@ -63,8 +63,6 @@ runs:
           Write-Host "Adjusting proj folder"
           $projectFolder = "${{ inputs.project-to-build }}".SubString(0, "${{ inputs.project-to-build }}".LastIndexOf('/'))
         }
-        Write-Host "Current proj folder is: $projectFolder"
-        
         Write-Host "Current proj folder is: $projectFolder"
 
         Write-Host  ""
