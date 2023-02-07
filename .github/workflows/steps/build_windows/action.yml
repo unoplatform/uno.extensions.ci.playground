@@ -99,7 +99,7 @@ runs:
       run:  |
         $projectFolder = '${{ inputs.project-folder }}'
         if ('' -eq $projectFolder){
-          $projectFolder = $projectFolder.SubString(0, $projectFolder.LastIndexOf('/')) 
+          $projectFolder = ${{ inputs.project-to-build }}.SubString(0, ${{ inputs.project-to-build }}.LastIndexOf('/')) 
         }
 
         if ('true' -eq '${{ inputs.sign-package }}') {
