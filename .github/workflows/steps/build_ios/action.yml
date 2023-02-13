@@ -71,13 +71,13 @@ runs:
   steps:
     - name: 'Download Provisioning Profiles'
       id: provisioning
-      uses: poad/apple-provisioning-profiles-downloader@v1.0.6
+      uses: apple-actions/download-provisioning-profiles@v1
       with: 
         bundle-id: ${{ inputs.bundle-identifier }}
         profile-type: ${{ inputs.profile-type }}
         issuer-id: ${{ inputs.issuer-id }}
         api-key-id:  ${{ inputs.api-key-id }}
-        api-private-key-file: ./.github/AuthKey_2PL66C9C6X.p8
+        api-private-key-file: ${{ inputs.api-private-key }}
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
