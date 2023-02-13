@@ -75,7 +75,6 @@ runs:
       with: 
         bundle-id: ${{ inputs.bundle-identifier }}
         issuer-id: ${{ inputs.issuer-id }}
-        profile-type: ${{ inputs.profile-type }}
         api-key-id:  ${{ inputs.api-key-id }}
         api-private-key: ${{ inputs.api-private-key }}
 
