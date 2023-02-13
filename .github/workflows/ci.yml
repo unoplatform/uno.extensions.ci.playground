@@ -128,7 +128,7 @@ jobs:
           profile-type: 'IOS_APP_DEVELOPMENT'
           issuer-id: '{{ secrets.IOS_ISSUER_ID }}'
           api-key-id: '{{ secrets.IOS_API_KEY }}'
-          api-private-key: '{{ secrets.IOS_PRIVATE_KEY }}'
+          api-private-key: {{ secrets.IOS_PRIVATE_KEY }}
           codesign-key: 'Apple Development: Created via API (K2ZCUAY94H)'
           project-to-build: "Demo.Mobile/Demo.Mobile.csproj"          
 

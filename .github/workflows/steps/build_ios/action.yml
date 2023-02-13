@@ -74,7 +74,6 @@ runs:
       uses: poad/apple-provisioning-profiles-downloader@v1.0.6
       with: 
         bundle-id: ${{ inputs.bundle-identifier }}
-        profile-type: ${{ inputs.profile-type }}
         issuer-id: ${{ inputs.issuer-id }}
         api-key-id:  ${{ inputs.api-key-id }}
         api-private-key: ${{ inputs.api-private-key }}
