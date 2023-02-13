@@ -73,10 +73,10 @@ runs:
       id: provisioning
       uses: poad/apple-provisioning-profiles-downloader@v1.0.6
       with: 
-        bundle-id: ${{ inputs.bundle-identifier }}
-        issuer-id: ${{ inputs.issuer-id }}
-        api-key-id:  ${{ inputs.api-key-id }}
-        api-private-key: ${{ inputs.api-private-key }}
+        bundle-id: "${{ inputs.bundle-identifier }}"
+        issuer-id: "${{ inputs.issuer-id }}"
+        api-key-id:  "${{ inputs.api-key-id }}"
+        api-private-key: "${{ inputs.api-private-key }}"
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
