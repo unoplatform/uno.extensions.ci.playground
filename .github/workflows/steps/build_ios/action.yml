@@ -76,7 +76,7 @@ runs:
         bundle-id: ${{ inputs.bundle-identifier }}
         issuer-id: ${{ inputs.issuer-id }}
         api-key-id:  ${{ inputs.api-key-id }}
-        api-private-key: ${{ inputs.api-private-key }}
+        api-private-key: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgWNh2494llJwFGw/y\nZBtUCguJ9yW97xlYbLKdLAcGyDqgCgYIKoZIzj0DAQehRANCAARInvvnJDgDC/fS\nFzO9L9RnBf/eUoS52/h/HaDO1CdmZgUGekIi8H6A0wiXd8NrBLytTJO24Qaksx8s\nmItouZu3\n-----END PRIVATE KEY-----"
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
