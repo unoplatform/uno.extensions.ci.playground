@@ -64,7 +64,7 @@ runs:
       uses: apple-actions/download-provisioning-profiles@v1
       with: 
         bundle-id: 'com.unoplatform.devops'
-        profile-type: 'IOS_APP_STORE'
+        profile-type: 'IOS_APP_DEVELOPMENT'
         issuer-id: '69a6de84-66b5-47e3-e053-5b8c7c11a4d1'
         api-key-id:  '2PL66C9C6X'
         api-private-key: '-----BEGIN PRIVATE KEY-----MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgWNh2494llJwFGw/yZBtUCguJ9yW97xlYbLKdLAcGyDqgCgYIKoZIzj0DAQehRANCAARInvvnJDgDC/fSFzO9L9RnBf/eUoS52/h/HaDO1CdmZgUGekIi8H6A0wiXd8NrBLytTJO24Qaksx8smItouZu3-----END PRIVATE KEY-----'
