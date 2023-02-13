@@ -142,7 +142,7 @@ runs:
           Write-Host "Checking BundleId: ${{ inputs.bundle-identifier }}"
 
           Write-Host "Finding Package Plist (ie Info.plist). Set ios_plist_filename parameter to override"
-          $manifest = (Get-ChildItem -Filter "Info.plist" -Path "$(System.DefaultWorkingDirectory)"  -Recurse | Select-Object -First 1 ).FullName
+          $manifest = (Get-ChildItem -Filter "Info.plist" -Path "."  -Recurse | Select-Object -First 1 ).FullName
           Write-Host "Found at $manifest"
           Write-Host "$manifest"     
           
