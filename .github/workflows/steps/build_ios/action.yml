@@ -38,16 +38,26 @@ inputs:
      description: "The provisioning profile name. This is the name you entered in the Apple Developer portal when creating your provisioning profile."
      required: true      
      default: '' 
-  #delete         
-  provisioning-profile: 
-     description: "Base64 provisioning profile"
-     required: true
+  iOS-api-key: 
+     description: ""
+     required: true      
      default: ''
-  #delete
-  keychain-password: 
-     description: "New keychain password. This can be a random string value"
-     required: false
-     default: 'KEYCHAIN_PASSWORD'      
+  profile-type: 
+     description: ""
+     required: true      
+     default: ''
+  issuer-id: 
+     description: ""
+     required: true      
+     default: ''
+  api-key-id: 
+     description: ""
+     required: true      
+     default: ''
+  api-private-key: 
+     description: ""
+     required: true      
+     default: ''           
   publish-artifacts: 
      description: "If true, compilation artifacts will be published and put under Job Summary section"
      required: false
@@ -63,11 +73,11 @@ runs:
       id: provisioning
       uses: poad/apple-provisioning-profiles-downloader@v1.0.6
       with: 
-        bundle-id: 'com.unoplatform.devops'
-        profile-type: 'IOS_APP_DEVELOPMENT'
-        issuer-id: '69a6de84-66b5-47e3-e053-5b8c7c11a4d1'
-        api-key-id:  '2PL66C9C6X'
-        api-private-key-file: './AuthKey_2PL66C9C6X.p8'
+        bundle-id: ${{ inputs.bundle-identifier }}
+        profile-type: ${{ inputs.profile-type }}
+        issuer-id: ${{ inputs.issuer-id }}
+        api-key-id:  ${{ inputs.api-key-id }}
+        api-private-key: ${{ inputs.api-private-key }}
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
