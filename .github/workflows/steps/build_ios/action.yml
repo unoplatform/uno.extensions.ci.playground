@@ -67,7 +67,7 @@ runs:
         profile-type: 'IOS_APP_DEVELOPMENT'
         issuer-id: '69a6de84-66b5-47e3-e053-5b8c7c11a4d1'
         api-key-id:  '2PL66C9C6X'
-        api-private-key: './AuthKey_2PL66C9C6X.p8'
+        api-private-key-file: './AuthKey_2PL66C9C6X.p8'
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
