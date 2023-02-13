@@ -2,10 +2,6 @@ name: Build Mobile
 description: ""
 
 inputs:
-  package-id:
-    description: 'Compiled Package ID'
-    required: true
-    default: 'release_Mobile'
   project-to-build:
     description: 'Relative path to .csproj file'
     required: true
@@ -80,6 +76,6 @@ runs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: "${{ inputs.target-framework}}_${{ steps.gitversion.outputs.assemblySemVer }}"
+        name: "${{ inputs.target-framework }}_${{ steps.gitversion.outputs.assemblySemVer }}"
         path: artifacts
         retention-days: ${{ inputs.artifact-retention-policy }}

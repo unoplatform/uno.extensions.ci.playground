@@ -37,7 +37,8 @@ inputs:
   codesign-provision: 
      description: "The provisioning profile name. This is the name you entered in the Apple Developer portal when creating your provisioning profile."
      required: true      
-     default: ''          
+     default: '' 
+  #delete         
   provisioning-profile: 
      description: "Base64 provisioning profile"
      required: true
@@ -57,21 +58,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Verify required parameters
-      shell: pwsh
-      run: |
-            $errors = ''
-            if ('' -eq '${{ inputs.project-to-build }}') { $errors = $errors + '[project-to-build] is not valid.' + "`r`n"  }
-            if ('' -eq '${{ inputs.certificate }}') { $errors = $errors +'[certificate] is not valid. Please make sure the name of the .p12 certificate is correct and it exists in secure files' + "`r`n"  }
-            if ('' -eq '${{ inputs.certificate-password }}') { $errors = $errors +'[certificate-password] is not valid. Please make sure you are using the correct .p12 certificate password' + "`r`n"  }
-            if ('' -eq '${{ inputs.codesign-key }}') { $errors = $errors +'[codesign-key] is not valid. Please make sure the name of the name of the distribution certificate is correct. E.g. Apple Development: Contoso Contoso (752234A22L)' + "`r`n"  }
-            if ('' -eq '${{ inputs.codesign-provision }}') { $errors = $errors +'[codesign-provision] is not valid. Please make sure the provisioning profile name is correct. This is the name you entered in the Apple Developer portal when creating your provisioning profile' + "`r`n"  }
-            if ('' -eq '${{ inputs.provisioning-profile }}') { $errors = $errors +'[provisioning-profile] is not valid. Please make sure the .mobileprovision file is correct and it exists in secure files' + "`r`n"  }
-            
-            if (-not ([string]::IsNullOrEmpty($errors))){
-                $errors
-                throw "Some required parameters are missing"
-            }
+    - name: 'Download Provisioning Profiles'
+      id: provisioning
+      uses: apple-actions/download-provisioning-profiles@v1
+      with: 
+        bundle-id: 'com.unoplatform.devops'
+        profile-type: 'IOS_APP_STORE'
+        issuer-id: '69a6de84-66b5-47e3-e053-5b8c7c11a4d1'
+        api-key-id:  '2PL66C9C6X'
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
@@ -95,36 +89,40 @@ runs:
     #   run: |
     #     sudo xcode-select -s "/Applications/Xcode_14.1.app"
     #     echo "MD_APPLE_SDK_ROOT=/Applications/Xcode_14.1.app" >> $GITHUB_ENV
-        
     - name: Install the Apple certificate and provisioning profile
-      shell: bash
-      env:
-        BUILD_CERTIFICATE_BASE64: ${{ inputs.certificate }}
-        P12_PASSWORD: ${{ inputs.certificate-password }}
-        BUILD_PROVISION_PROFILE_BASE64: ${{ inputs.provisioning-profile }}
-        KEYCHAIN_PASSWORD: ${{ inputs.keychain-password }}
-      run: |
-          echo -n "create variables"
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+      uses: apple-actions/import-codesign-certs@v1
+      with: 
+        p12-file-base64: ${{ inputs.certificate }}
+        p12-password: ${{ inputs.certificate-password }}    
+    # - name: Install the Apple certificate and provisioning profile
+    #   shell: bash
+    #   env:
+    #     BUILD_CERTIFICATE_BASE64: ${{ inputs.certificate }}
+    #     P12_PASSWORD: ${{ inputs.certificate-password }}
+    #     BUILD_PROVISION_PROFILE_BASE64: ${{ steps.provisioning.outputs.profiles }}
+    #     KEYCHAIN_PASSWORD: ${{ inputs.keychain-password }}
+    #   run: |
+    #       echo -n "create variables"
+    #       CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+    #       PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+    #       KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
-          echo -n "import certificate and provisioning profile from secrets"
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+    #       echo -n "import certificate and provisioning profile from secrets"
+    #       echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+    #       echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
 
-          echo -n "create temporary keychain"
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+    #       echo -n "create temporary keychain"
+    #       security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+    #       security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+    #       security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
-          echo -n "import certificate to keychain"
-          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
+    #       echo -n "import certificate to keychain"
+    #       security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+    #       security list-keychain -d user -s $KEYCHAIN_PATH
 
-          echo -n "apply provisioning profile"
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+    #       echo -n "apply provisioning profile"
+    #       mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+    #       cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
     - name: Find the Info.plist file and validate BundleID
       shell: pwsh
