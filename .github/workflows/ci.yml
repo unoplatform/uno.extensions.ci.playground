@@ -109,11 +109,11 @@ jobs:
         with:
           fetch-depth: 0 
 
-      # - name: Install Dependencies
-      #   timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT) }}
-      #   uses: "./.github/workflows/steps/install_dependencies"     
-      #   with:
-      #     target-platform: 'ios'
+      - name: Install Dependencies
+        timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT) }}
+        uses: "./.github/workflows/steps/install_dependencies"     
+        with:
+          target-platform: 'ios'
       
       - name: Build Mobile (iOS)
         timeout-minutes: ${{ fromJSON(env.STEP_TIMEOUT) }}
