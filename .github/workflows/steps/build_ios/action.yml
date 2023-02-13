@@ -77,7 +77,9 @@ runs:
         profile-type: ${{ inputs.profile-type }}
         issuer-id: ${{ inputs.issuer-id }}
         api-key-id:  ${{ inputs.api-key-id }}
-        api-private-key-file: $github_workspace/AuthKey_2PL66C9C6X.p8
+        api-private-key-file: ${{env.working-dir}}/AuthKey_2PL66C9C6X.p8
+      env:
+        working-dir: .  
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.9
